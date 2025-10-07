@@ -85,7 +85,7 @@ spec:
       serviceAccountName: porkbun-webhook
       containers:
         - name: porkbun-webhook
-          image: ghcr.io/mdonoughe/porkbun-webhook:v0.1.5
+          image: talinx/cert-manager-webhook-porkbun:latest
           imagePullPolicy: IfNotPresent
           env:
             - name: GROUP_NAME
