@@ -6,6 +6,4 @@ resources:
   - pvc.yaml
   - deployment.yaml
   - service.yaml
-  - ingressroute.yaml
-  - ingressroute-redirect.yaml
-  - certificate.yaml
+  - ingress.yaml
