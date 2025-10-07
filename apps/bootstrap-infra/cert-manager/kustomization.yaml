@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - helmrelease.yaml
-  - porkbun-webhook-helmrelease.yaml
+  - porkbun-webhook.yaml
   - webhook-rbac.yaml
