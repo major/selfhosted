@@ -14,8 +14,4 @@ spec:
         - name: uptime-kuma
           port: 3001
   tls:
-    certResolver: porkbun
-    domains:
-      - main: amajor.cloud
-        sans:
-          - "*.amajor.cloud"
+    secretName: uptime-kuma-tls

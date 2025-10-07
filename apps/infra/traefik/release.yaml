@@ -39,45 +39,6 @@ spec:
         exposedPort: 443
         tls:
           enabled: true
-          certResolver: porkbun
-          domains:
-            - main: "amajor.cloud"
-              sans:
-                - "*.amajor.cloud"
-
-    # Persistence for ACME certificates
-    persistence:
-      enabled: true
-      name: data
-      size: 128Mi
-      path: /data
-      accessMode: ReadWriteOnce
-
-    # Certificate resolvers for ACME
-    certificatesResolvers:
-      porkbun:
-        acme:
-          email: major@mhtx.net
-          storage: /data/acme.json
-          dnsChallenge:
-            provider: porkbun
-            delayBeforeCheck: 30
-            resolvers:
-              - 1.1.1.1:53
-              - 8.8.8.8:53
-
-    # Environment variables for Porkbun API credentials
-    env:
-      - name: PORKBUN_API_KEY
-        valueFrom:
-          secretKeyRef:
-            name: porkbun-credentials
-            key: api-key
-      - name: PORKBUN_SECRET_API_KEY
-        valueFrom:
-          secretKeyRef:
-            name: porkbun-credentials
-            key: secret-api-key
 
     # Service configuration
     service:

@@ -4,3 +4,4 @@ resources:
   - webhook-token-secret.yaml
   - receiver.yaml
   - ingressroute.yaml
+  - certificate.yaml

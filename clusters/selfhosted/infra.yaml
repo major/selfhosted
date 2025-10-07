@@ -9,9 +9,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./apps/infra
+  path: ./apps/infra/traefik
   prune: true
   wait: true
   timeout: 5m
   dependsOn:
-    - name: bootstrap-infra
+    - name: cert-manager

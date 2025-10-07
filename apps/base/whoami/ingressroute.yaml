@@ -14,8 +14,4 @@ spec:
         - name: whoami
           port: 80
   tls:
-    certResolver: porkbun
-    domains:
-      - main: amajor.cloud
-        sans:
-          - "*.amajor.cloud"
+    secretName: whoami-tls
