@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **Flux GitOps repository** for managing Kubernetes applications in a selfhosted cluster. Flux v2.7.1 continuously monitors this repository and automatically applies changes to the cluster.
 
-All applications are deployed under the **`*.amajor.cloud`** domain and use Traefik as the ingress controller with automatic TLS certificate management via Porkbun.
+All applications are deployed under the **`*.amajor.cloud`** domain and use Traefik as the ingress controller with automatic TLS certificate management via cert-manager and Let's Encrypt (using Porkbun DNS challenge).
 
 ## Architecture
 
@@ -21,7 +21,9 @@ The repository follows Flux's standard GitOps pattern:
 - **[apps/base/](apps/base/)** - Application manifests organized by application name
   - Each subdirectory represents a distinct application (e.g., `traefik/`, `whoami/`, `uptime-kuma/`)
   - Applications are automatically deployed via the `apps` Kustomization
+  - [cert-manager/](apps/base/cert-manager/) - Automatic TLS certificate management with Let's Encrypt
   - [flux-webhook/](apps/base/flux-webhook/) - GitHub webhook receiver for instant reconciliation
+  - [sealed-secrets/](apps/base/sealed-secrets/) - Encrypted secrets management
 
 ### Flux Sync Flow
 
@@ -39,8 +41,8 @@ The repository follows Flux's standard GitOps pattern:
 2. Add Kubernetes manifests (Deployment, Service, HelmRelease, etc.)
 3. For web applications, create an IngressRoute with:
    - Host: `<app-name>.amajor.cloud`
-   - TLS certResolver: `porkbun`
    - Entry point: `websecure`
+   - TLS: `tls: {}` (uses wildcard certificate automatically)
 4. Commit and push changes
 5. Changes are applied immediately via webhook, or within 10 minutes via polling
 6. To force immediate sync: `flux reconcile kustomization apps`
@@ -97,6 +99,43 @@ kubectl apply --dry-run=client -f apps/base/<app-name>/
 kustomize build apps/base/
 ```
 
+## TLS Certificate Management
+
+TLS certificates are managed by **cert-manager** using Let's Encrypt with Porkbun DNS-01 challenge.
+
+### Architecture
+
+1. **cert-manager** ([apps/base/cert-manager/](apps/base/cert-manager/)) manages certificate lifecycle
+2. **Wildcard Certificate** covers `amajor.cloud` and `*.amajor.cloud`
+3. **Porkbun DNS Webhook** handles ACME DNS-01 challenges
+4. **Automatic Renewal** occurs 30 days before expiry
+5. **Traefik** uses the certificate as default for all HTTPS traffic
+
+### Certificate Details
+
+- **Certificate Name**: `amajor-cloud-wildcard` (in `traefik` namespace)
+- **Secret Name**: `amajor-cloud-tls` (in `traefik` namespace)
+- **Issuer**: Let's Encrypt Production via `letsencrypt-porkbun` ClusterIssuer
+- **Domains**: `amajor.cloud`, `*.amajor.cloud`
+
+### Verification Commands
+
+```bash
+# Check certificate status
+kubectl -n traefik get certificate amajor-cloud-wildcard
+
+# View certificate details
+kubectl -n traefik describe certificate amajor-cloud-wildcard
+
+# Check cert-manager logs
+kubectl -n cert-manager logs -l app=cert-manager
+
+# Verify TLS secret exists
+kubectl -n traefik get secret amajor-cloud-tls
+```
+
+For more details, see [apps/base/cert-manager/README.md](apps/base/cert-manager/README.md).
+
 ## GitHub Webhook Integration
 
 The repository is configured with GitHub webhooks for instant reconciliation instead of waiting for the 10-minute polling interval.
@@ -114,4 +153,6 @@ For setup instructions and troubleshooting, see [apps/base/flux-webhook/README.m
 - Changes to the `main` branch are automatically applied to the cluster (immediately via webhook, or within 10 minutes via polling)
 - Renovate is configured to auto-merge dependency updates (see [renovate.json](renovate.json))
 - The repository uses SSH authentication for Flux (secret: `flux-system` in `flux-system` namespace)
-- All applications use the `*.amajor.cloud` domain with Traefik IngressRoutes and Porkbun for TLS certificates
+- All applications use the `*.amajor.cloud` domain with Traefik IngressRoutes
+- TLS certificates are managed by cert-manager using Let's Encrypt (Porkbun DNS challenge)
+- Secrets are encrypted using Sealed Secrets before being committed to Git
