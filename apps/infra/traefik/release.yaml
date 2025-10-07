@@ -39,6 +39,11 @@ spec:
         exposedPort: 443
         tls:
           enabled: true
+          certResolver: porkbun
+          domains:
+            - main: "*.amajor.cloud"
+              sans:
+                - "amajor.cloud"
 
     # Persistence for ACME certificates
     persistence:
