@@ -1,0 +1,30 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cert-manager-webhook-porkbun:flowcontrol
+  labels:
+    app: cert-manager-webhook-porkbun
+rules:
+  - apiGroups:
+      - acme.porkbun.com
+    resources:
+      - '*'
+    verbs:
+      - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cert-manager-webhook-porkbun:flowcontrol
+  labels:
+    app: cert-manager-webhook-porkbun
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cert-manager-webhook-porkbun:flowcontrol
+subjects:
+  - apiGroup: ""
+    kind: ServiceAccount
+    name: cert-manager
+    namespace: cert-manager
