@@ -7,7 +7,7 @@ metadata:
 spec:
   secretName: flux-webhook-tls
   issuerRef:
-    name: letsencrypt-production
+    name: letsencrypt-staging
     kind: ClusterIssuer
   dnsNames:
     - flux-webhook.amajor.cloud
