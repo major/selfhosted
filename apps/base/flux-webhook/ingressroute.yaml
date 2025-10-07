@@ -13,4 +13,9 @@ spec:
       services:
         - name: webhook-receiver
           port: 80
-  tls: {}
+  tls:
+    certResolver: porkbun
+    domains:
+      - main: amajor.cloud
+        sans:
+          - "*.amajor.cloud"
