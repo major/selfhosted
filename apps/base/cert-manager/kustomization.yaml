@@ -6,4 +6,3 @@ resources:
   - porkbun-webhook-helmrelease.yaml
   - porkbun-credentials-sealed.yaml
   - clusterissuer.yaml
-  - certificate.yaml
