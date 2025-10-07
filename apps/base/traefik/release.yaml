@@ -42,7 +42,7 @@ spec:
     certResolvers:
       porkbun:
         acme:
-          email: your-email@example.com  # CHANGE THIS
+          email: major@mhtx.net
           storage: /data/acme.json
           dnsChallenge:
             provider: porkbun
