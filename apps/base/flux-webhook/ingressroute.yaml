@@ -12,5 +12,4 @@ spec:
       services:
         - name: webhook-receiver
           port: 80
-  tls:
-    certResolver: porkbun
+  tls: {}

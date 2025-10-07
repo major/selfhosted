@@ -52,6 +52,7 @@ spec:
       - "--certificatesresolvers.porkbun.acme.dnschallenge=true"
       - "--certificatesresolvers.porkbun.acme.dnschallenge.provider=porkbun"
       - "--certificatesresolvers.porkbun.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
+      - "--certificatesresolvers.porkbun.acme.dnschallenge.delaybeforecheck=30"
 
     # Environment variables from sealed secret
     env:
