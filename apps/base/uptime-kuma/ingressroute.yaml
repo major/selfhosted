@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`uptime.mhtx.net`)
+    - match: Host(`uptime.amajor.cloud`)
       kind: Rule
       services:
         - name: uptime-kuma

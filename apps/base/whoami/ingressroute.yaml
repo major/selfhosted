@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`whoami.mhtx.net`)
+    - match: Host(`whoami.amajor.cloud`)
       kind: Rule
       services:
         - name: whoami
