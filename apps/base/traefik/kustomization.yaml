@@ -6,3 +6,4 @@ resources:
   - repository.yaml
   - porkbun-sealed-secret.yaml
   - release.yaml
+  - dashboard-ingressroute.yaml
