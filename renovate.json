@@ -5,6 +5,15 @@
         ":automergeAll",
         "config:best-practices"
     ],
+    "flux": {
+      "fileMatch": ["(^|/).*\\.ya?ml$"]
+    },
+    "helm-values": {
+      "fileMatch": ["(^|/).*\\.ya?ml$"]
+    },
+    "kubernetes": {
+      "fileMatch": ["(^|/).*\\.ya?ml$"]
+    },
     "git-submodules": {
       "enabled": true
     }
