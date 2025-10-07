@@ -6,4 +6,3 @@ resources:
   - repository.yaml
   - porkbun-credentials-sealed.yaml
   - release.yaml
-  - certificate.yaml
