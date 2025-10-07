@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: traefik
-      version: '>=37.0.0 <38.0.0'
+      version: '37.1.2'
       sourceRef:
         kind: HelmRepository
         name: traefik
@@ -27,8 +27,11 @@ spec:
           default: true
         exposedPort: 80
         # Redirect HTTP to HTTPS
-        redirectTo:
-          port: websecure
+        redirections:
+          entryPoint:
+            to: websecure
+            scheme: https
+            permanent: true
       websecure:
         port: 443
         expose:
