@@ -3,6 +3,3 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - helmrelease.yaml
-  - porkbun-webhook-helmrelease.yaml
-  - porkbun-credentials-sealed.yaml
-  - clusterissuer.yaml
