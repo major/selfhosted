@@ -41,9 +41,9 @@ spec:
           enabled: true
           certResolver: porkbun
           domains:
-            - main: "*.amajor.cloud"
+            - main: "amajor.cloud"
               sans:
-                - "amajor.cloud"
+                - "*.amajor.cloud"
 
     # Persistence for ACME certificates
     persistence:
