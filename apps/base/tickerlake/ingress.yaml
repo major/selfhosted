@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tickerlake
+  namespace: tickerlake
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - tickerlake.amajor.cloud
+      secretName: tickerlake-tls
+  rules:
+    - host: tickerlake.amajor.cloud
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tickerlake
+                port:
+                  number: 80
