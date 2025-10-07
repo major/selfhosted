@@ -2,6 +2,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - porkbun-credentials-sealed.yaml
-  - porkbun-webhook-helmrelease.yaml
   - clusterissuer.yaml
   - certificate.yaml
