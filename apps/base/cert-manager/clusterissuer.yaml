@@ -1,0 +1,28 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-porkbun
+spec:
+  acme:
+    # Production Let's Encrypt server
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: major@mhtx.net
+    
+    # Secret to store ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-porkbun-account-key
+    
+    # DNS-01 challenge with Porkbun
+    solvers:
+      - dns01:
+          webhook:
+            groupName: acme.porkbun.com
+            solverName: porkbun
+            config:
+              secretKeyRef:
+                name: porkbun-credentials
+                key: secret-api-key
+              apiKeyRef:
+                name: porkbun-credentials
+                key: api-key
