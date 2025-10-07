@@ -40,6 +40,10 @@ spec:
         tls:
           enabled: true
           certResolver: porkbun
+          domains:
+            - main: amajor.cloud
+              sans:
+                - "*.amajor.cloud"
 
     # Certificate resolvers configuration via CLI arguments
     additionalArguments:
