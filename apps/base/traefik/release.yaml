@@ -38,22 +38,26 @@ spec:
           enabled: true
           certResolver: porkbun
 
-    # Certificate resolvers
-    certResolvers:
-      porkbun:
-        acme:
-          email: major@mhtx.net
-          storage: /data/acme.json
-          dnsChallenge:
-            provider: porkbun
-            resolvers:
-              - 1.1.1.1:53
-              - 8.8.8.8:53
+    # Certificate resolvers configuration via CLI arguments
+    additionalArguments:
+      - "--certificatesresolvers.porkbun.acme.email=major@mhtx.net"
+      - "--certificatesresolvers.porkbun.acme.storage=/data/acme.json"
+      - "--certificatesresolvers.porkbun.acme.dnschallenge=true"
+      - "--certificatesresolvers.porkbun.acme.dnschallenge.provider=porkbun"
+      - "--certificatesresolvers.porkbun.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
 
     # Environment variables from sealed secret
-    envFrom:
-      - secretRef:
-          name: porkbun-credentials
+    env:
+      - name: PORKBUN_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: porkbun-credentials
+            key: PORKBUN_API_KEY
+      - name: PORKBUN_SECRET_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: porkbun-credentials
+            key: PORKBUN_SECRET_API_KEY
 
     # Persistence for ACME certificates
     persistence:
