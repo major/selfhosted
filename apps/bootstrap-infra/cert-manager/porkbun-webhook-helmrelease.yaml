@@ -27,3 +27,6 @@ spec:
         namespace: cert-manager
   values:
     groupName: acme.porkbun.com
+    certManager:
+      namespace: cert-manager
+      serviceAccountName: cert-manager
