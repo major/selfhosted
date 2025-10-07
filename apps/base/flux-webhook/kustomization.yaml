@@ -3,6 +3,4 @@ kind: Kustomization
 resources:
   - webhook-token-secret.yaml
   - receiver.yaml
-  - ingressroute.yaml
-  - ingressroute-redirect.yaml
-  - certificate.yaml
+  - ingress.yaml
