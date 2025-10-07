@@ -10,10 +10,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - flux-webhook.amajor.cloud
+        - webhook.amajor.cloud
       secretName: flux-webhook-tls
   rules:
-    - host: flux-webhook.amajor.cloud
+    - host: webhook.amajor.cloud
       http:
         paths:
           - path: /hook/
