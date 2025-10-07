@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`traefik.mhtx.net`)
+    - match: Host(`traefik.amajor.cloud`)
       kind: Rule
       services:
         - name: api@internal
