@@ -68,12 +68,10 @@ spec:
     service:
       type: LoadBalancer
 
-    # Enable dashboard (accessible internally)
+    # Enable dashboard (accessible via custom IngressRoute)
     ingressRoute:
       dashboard:
-        enabled: true
-        matchRule: Host(`traefik.localhost`)
-        entryPoints: ["web"]
+        enabled: false
 
     # Logging
     logs:
