@@ -23,6 +23,8 @@ spec:
               secretKeyRef:
                 name: porkbun-credentials
                 key: secret-api-key
+                namespace: cert-manager
               apiKeyRef:
                 name: porkbun-credentials
                 key: api-key
+                namespace: cert-manager
