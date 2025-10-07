@@ -70,6 +70,10 @@ flux logs --level=error
 
 ## Key Commands
 
+### Kubeconfig
+- Use the kubeconfig at `~/.kube/k3s-config` for kubectl commands
+- Set `KUBECONFIG=~/.kube/k3s-config` or use `--kubeconfig ~/.kube/k3s-config`
+
 ### Flux Operations
 
 ```bash
@@ -93,7 +97,7 @@ flux reconcile kustomization apps
 
 ```bash
 # Validate Kubernetes manifests before committing
-kubectl apply --dry-run=client -f apps/base/<app-name>/
+kubectl --kubeconfig ~/.kube/k3s-config apply --dry-run=client -f apps/base/<app-name>/
 
 # Validate with kustomize
 kustomize build apps/base/
