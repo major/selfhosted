@@ -22,18 +22,15 @@ spec:
     # Port configuration
     ports:
       web:
-        port: 80
+        port: 8000
         expose:
           default: true
         exposedPort: 80
         # Redirect HTTP to HTTPS
-        redirections:
-          entryPoint:
-            to: websecure
-            scheme: https
-            permanent: true
+        redirectTo:
+          port: websecure
       websecure:
-        port: 443
+        port: 8443
         expose:
           default: true
         exposedPort: 443
@@ -43,18 +40,23 @@ spec:
     # Persistence for ACME certificates
     persistence:
       enabled: true
-      name: traefik-acme
+      name: data
       size: 128Mi
       path: /data
       accessMode: ReadWriteOnce
 
-    # Certificate resolvers configuration via CLI arguments
-    additionalArguments:
-      - "--certificatesresolvers.porkbun.acme.email=major@mhtx.net"
-      - "--certificatesresolvers.porkbun.acme.storage=/data/acme.json"
-      - "--certificatesresolvers.porkbun.acme.dnschallenge.provider=porkbun"
-      - "--certificatesresolvers.porkbun.acme.dnschallenge.delaybeforecheck=30"
-      - "--certificatesresolvers.porkbun.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
+    # Certificate resolvers for ACME
+    certificatesResolvers:
+      porkbun:
+        acme:
+          email: major@mhtx.net
+          storage: /data/acme.json
+          dnsChallenge:
+            provider: porkbun
+            delayBeforeCheck: 30
+            resolvers:
+              - 1.1.1.1:53
+              - 8.8.8.8:53
 
     # Environment variables for Porkbun API credentials
     env:
@@ -71,9 +73,10 @@ spec:
 
     # Service configuration
     service:
+      enabled: true
       type: LoadBalancer
 
-    # Enable dashboard (accessible via custom IngressRoute)
+    # Disable dashboard IngressRoute (manage separately if needed)
     ingressRoute:
       dashboard:
         enabled: false
