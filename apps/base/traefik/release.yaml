@@ -19,16 +19,46 @@ spec:
     deployment:
       replicas: 1
 
-    # HTTP only configuration
+    # Port configuration
     ports:
       web:
         port: 80
         expose:
           default: true
         exposedPort: 80
+        # Redirect HTTP to HTTPS
+        redirectTo:
+          port: websecure
       websecure:
+        port: 443
         expose:
-          default: false
+          default: true
+        exposedPort: 443
+        tls:
+          enabled: true
+          certResolver: porkbun
+
+    # Certificate resolvers
+    certResolvers:
+      porkbun:
+        acme:
+          email: your-email@example.com  # CHANGE THIS
+          storage: /data/acme.json
+          dnsChallenge:
+            provider: porkbun
+            resolvers:
+              - 1.1.1.1:53
+              - 8.8.8.8:53
+
+    # Environment variables from sealed secret
+    envFrom:
+      - secretRef:
+          name: porkbun-credentials
+
+    # Persistence for ACME certificates
+    persistence:
+      enabled: true
+      size: 128Mi
 
     # Service configuration
     service:
