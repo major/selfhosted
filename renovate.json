@@ -4,5 +4,35 @@
     "config:recommended",
     ":automergeAll",
     "config:best-practices"
+  ],
+  "flux": {
+    "fileMatch": ["(^|/)apps/.+\\.ya?ml$", "(^|/)clusters/.+\\.ya?ml$"]
+  },
+  "kubernetes": {
+    "fileMatch": ["(^|/)apps/.+\\.ya?ml$", "(^|/)clusters/.+\\.ya?ml$"]
+  },
+  "helm-values": {
+    "fileMatch": ["(^|/)apps/.+\\.ya?ml$"]
+  },
+  "packageRules": [
+    {
+      "description": "Auto-merge Helm chart updates",
+      "matchDatasources": ["helm"],
+      "automerge": true
+    },
+    {
+      "description": "Auto-merge Docker image updates",
+      "matchDatasources": ["docker"],
+      "automerge": true
+    },
+    {
+      "description": "Check tickerlake container at 4:45 PM ET on weekdays",
+      "matchPackageNames": ["**/tickerlake"],
+      "schedule": ["after 4:45pm and before 5:00pm every weekday"],
+      "timezone": "America/New_York",
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    }
   ]
 }
