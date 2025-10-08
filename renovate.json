@@ -4,23 +4,5 @@
     "config:recommended",
     ":automergeAll",
     "config:best-practices"
-  ],
-  "flux": {
-    "managerFilePatterns": [
-      "/(^|/).*\\.ya?ml$/"
-    ]
-  },
-  "helm-values": {
-    "managerFilePatterns": [
-      "/(^|/).*\\.ya?ml$/"
-    ]
-  },
-  "kubernetes": {
-    "managerFilePatterns": [
-      "/(^|/).*\\.ya?ml$/"
-    ]
-  },
-  "git-submodules": {
-    "enabled": true
-  }
+  ]
 }
