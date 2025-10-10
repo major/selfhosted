@@ -15,14 +15,14 @@ spec:
         app: tickerlake
     spec:
       containers:
-      - name: tickerlake
-        image: ghcr.io/major/tickerlake:latest@
-        ports:
-        - containerPort: 8001
-          name: http
-        resources:
-          requests:
-            cpu: 50m
-            memory: 64Mi
-          limits:
-            memory: 128Mi
+        - name: tickerlake
+          image: ghcr.io/major/tickerlake:latest@sha256:bcb4ad2ecc0c12b77aeb02efd17949a57c30e2321e88cf2ca7dff15d8baff1d1
+          ports:
+            - containerPort: 8001
+              name: http
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi
