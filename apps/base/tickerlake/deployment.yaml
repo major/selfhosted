@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: tickerlake
-          image: ghcr.io/major/tickerlake:latest@sha256:5ab07766a3ca12702da5de3f117df3126429a67cfcd485f8e74d88fac2675086
+          image: ghcr.io/major/tickerlake:latest@sha256:0a5cee7a943b7ba4c42f37ba6500529e71c389bc14c80d2d9b6fb9fd1b17f76c
           ports:
             - containerPort: 8001
               name: http
