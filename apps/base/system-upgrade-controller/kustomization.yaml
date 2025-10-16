@@ -6,8 +6,8 @@ resources:
   - rbac.yaml
   - deployment.yaml
   - plan-k3s.yaml
-  # Uncomment the following after creating discord-webhook-sealed-secret.yaml
-  # - discord-webhook-sealed-secret.yaml
-  # - discord-provider.yaml
-  # - alert.yaml                 # K3s upgrade notifications
-  # - alert-flux-all.yaml        # General Flux notifications (recommended!)
+  # Discord notifications
+  - discord-webhook-sealed-secret.yaml
+  - discord-provider.yaml
+  - alert.yaml                 # K3s upgrade notifications
+  - alert-flux-all.yaml        # General Flux notifications (recommended!)
