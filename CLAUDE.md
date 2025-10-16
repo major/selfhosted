@@ -217,3 +217,4 @@ Check Traefik logs for ACME challenge errors:
 ```bash
 kubectl --kubeconfig ~/.kube/k3s-config -n traefik logs -l app.kubernetes.io/name=traefik --tail=100 | grep -i acme
 ```
+- Always use sha256 hashes in this repository when deploying containers
