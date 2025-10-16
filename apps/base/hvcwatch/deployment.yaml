@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: hvcwatch
-          image: ghcr.io/major/hvcwatch:latest@sha256:d540679ec2a9d3f09d795f431e827e0e5d3dc14e1324b795f99a4b5fbac844b8
+          image: ghcr.io/major/hvcwatch:latest@sha256:de3c61231d3daaac1db3ed4e5b9ca05dd6e7edea9ff80a35d362a9d067d61602
           imagePullPolicy: Always
           env:
             # Fastmail configuration
