@@ -1,0 +1,64 @@
+---
+# 🚨 Alert for all Kustomization resources
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: kustomizations
+  namespace: flux-system
+spec:
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: '*'
+      namespace: flux-system
+  summary: "Flux Kustomization Alert"
+---
+# 🚨 Alert for all HelmRelease resources
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: helmreleases
+  namespace: flux-system
+spec:
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: HelmRelease
+      name: '*'
+      namespace: '*'
+  summary: "Flux HelmRelease Alert"
+---
+# 🚨 Alert for all GitRepository resources
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: gitrepositories
+  namespace: flux-system
+spec:
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: GitRepository
+      name: '*'
+      namespace: flux-system
+  summary: "Flux GitRepository Alert"
+---
+# 🚨 Alert for all HelmRepository resources
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: helmrepositories
+  namespace: flux-system
+spec:
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: HelmRepository
+      name: '*'
+      namespace: '*'
+  summary: "Flux HelmRepository Alert"
