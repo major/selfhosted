@@ -1,0 +1,33 @@
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: flux-notifications-all
+  namespace: flux-system
+spec:
+  summary: "🔔 Flux GitOps Notifications"
+  eventSeverity: info
+  eventSources:
+    # Git repositories
+    - kind: GitRepository
+      name: '*'
+      namespace: flux-system
+    # Kustomizations (your apps)
+    - kind: Kustomization
+      name: '*'
+    # Helm releases
+    - kind: HelmRelease
+      name: '*'
+    # OCI repositories
+    - kind: OCIRepository
+      name: '*'
+    # Helm repositories
+    - kind: HelmRepository
+      name: '*'
+    # Image update automations
+    - kind: ImageUpdateAutomation
+      name: '*'
+    # Image policies
+    - kind: ImagePolicy
+      name: '*'
+  providerRef:
+    name: discord-k3s-upgrades
