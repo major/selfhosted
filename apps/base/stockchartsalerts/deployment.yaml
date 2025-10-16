@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stockchartsalerts
+  namespace: stockchartsalerts
+  labels:
+    app: stockchartsalerts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stockchartsalerts
+  template:
+    metadata:
+      labels:
+        app: stockchartsalerts
+    spec:
+      containers:
+        - name: stockchartsalerts
+          image: ghcr.io/major/stockchartsalerts@sha256:3edc3eaa183b07e324a53823e4b35c31fb3645eeb233fa573e00b409871c974d
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SENTRY_DSN
+              value: "https://3008fcf0dacd6e579b8b1b866942b9f4@o4504556291358720.ingest.us.sentry.io/4510199838539776"
+            - name: TZ
+              value: "America/New_York"
+            - name: DISCORD_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: stockchartsalerts-secrets
+                  key: discord-webhook-url
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
