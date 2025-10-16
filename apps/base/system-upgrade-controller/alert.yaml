@@ -1,0 +1,23 @@
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: k3s-upgrade-notifications
+  namespace: flux-system
+spec:
+  summary: "🚀 K3s Cluster Upgrades"
+  eventSeverity: info
+  eventSources:
+    # Watch for Plan changes (new version detected)
+    - kind: Plan
+      name: '*'
+      namespace: system-upgrade
+    # Watch for upgrade Jobs
+    - kind: Job
+      name: '*'
+      namespace: system-upgrade
+    # Watch for Pod events during upgrade
+    - kind: Pod
+      name: '*'
+      namespace: system-upgrade
+  providerRef:
+    name: discord-k3s-upgrades
