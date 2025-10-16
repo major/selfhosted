@@ -1,0 +1,81 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hvcwatch
+  namespace: hvcwatch
+  labels:
+    app: hvcwatch
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: hvcwatch
+  template:
+    metadata:
+      labels:
+        app: hvcwatch
+    spec:
+      containers:
+        - name: hvcwatch
+          image: ghcr.io/major/hvcwatch:latest
+          imagePullPolicy: Always
+          env:
+            # Fastmail configuration
+            - name: FASTMAIL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: hvcwatch-secrets
+                  key: fastmail-user
+            - name: FASTMAIL_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: hvcwatch-secrets
+                  key: fastmail-pass
+
+            # Discord webhook
+            - name: DISCORD_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: hvcwatch-secrets
+                  key: discord-webhook-url
+
+            # Polygon.io API key
+            - name: POLYGON_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hvcwatch-secrets
+                  key: polygon-api-key
+
+            # Optional Mastodon configuration
+            - name: MASTODON_SERVER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: hvcwatch-secrets
+                  key: mastodon-server-url
+                  optional: true
+            - name: MASTODON_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hvcwatch-secrets
+                  key: mastodon-access-token
+                  optional: true
+
+            # Optional configuration with defaults
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: IMAP_HOST
+              value: "imap.fastmail.com"
+            - name: IMAP_PORT
+              value: "993"
+            - name: IMAP_FOLDER
+              value: "Trading/ToS Alerts"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
