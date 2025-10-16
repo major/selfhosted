@@ -9,5 +9,5 @@ resources:
   # Discord notifications
   - discord-webhook-sealed-secret.yaml
   - discord-provider.yaml
-  - alert.yaml                 # K3s upgrade notifications
+  # - alert.yaml                 # K3s upgrade notifications (disabled - Flux Alerts can't watch K8s resources like Plan/Job/Pod)
   - alert-flux-all.yaml        # General Flux notifications (recommended!)
