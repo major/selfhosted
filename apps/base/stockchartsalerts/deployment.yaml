@@ -25,7 +25,7 @@ spec:
               value: "https://3008fcf0dacd6e579b8b1b866942b9f4@o4504556291358720.ingest.us.sentry.io/4510199838539776"
             - name: TZ
               value: "America/New_York"
-            - name: DISCORD_WEBHOOK_URL
+            - name: DISCORD_WEBHOOK
               valueFrom:
                 secretKeyRef:
                   name: stockchartsalerts-secrets
