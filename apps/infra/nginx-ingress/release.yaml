@@ -25,16 +25,11 @@ spec:
       service:
         type: LoadBalancer
         externalTrafficPolicy: Local
-        # Expose PostgreSQL port on LoadBalancer
-        ports:
-          http: 80
-          https: 443
-          postgres: 5432
 
       # TCP services for PostgreSQL passthrough
-      # Point controller to our manually created tcp-services ConfigMap
-      extraArgs:
-        tcp-services-configmap: ingress-nginx/tcp-services
+      # This creates the tcp-services ConfigMap and exposes port 5432 on the LoadBalancer
+      tcp:
+        "5432": "postgres/postgres-rw:5432"
 
       # Enable metrics
       metrics:
