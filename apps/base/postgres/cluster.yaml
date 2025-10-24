@@ -32,8 +32,6 @@ spec:
           serviceTemplate:
             metadata:
               name: postgres-lb
-              annotations:
-                # Optional: Add cloud provider specific annotations here
             spec:
               type: LoadBalancer
               ports:
