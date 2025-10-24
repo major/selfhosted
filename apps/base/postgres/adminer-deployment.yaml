@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adminer
+  namespace: postgres
+  labels:
+    app: adminer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adminer
+  template:
+    metadata:
+      labels:
+        app: adminer
+    spec:
+      containers:
+        - name: adminer
+          image: adminer:4.8.1@sha256:3f9f521ab1abe7063e6625781c97caa77b800b5a990e9b65cae3e20f31b8ca3a
+          ports:
+            - containerPort: 8080
+              name: http
+          env:
+            # Set design to a nicer theme
+            - name: ADMINER_DESIGN
+              value: "pepa-linha"
+            # Default server (can be overridden in UI)
+            - name: ADMINER_DEFAULT_SERVER
+              value: "postgres-rw"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
