@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: default-backend
+  namespace: ingress-nginx
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  # This service doesn't need a real backend since we're using permanent-redirect
+  # But we need it to exist for the Ingress to be valid
+  clusterIP: None
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: default-backend
+  namespace: ingress-nginx
+  annotations:
+    # Redirect any request without a matching host to major.io 🚀
+    nginx.ingress.kubernetes.io/permanent-redirect: https://major.io/
+    # Ensure this has the lowest priority so it only catches unmatched requests
+    nginx.ingress.kubernetes.io/priority: "1"
+spec:
+  ingressClassName: nginx
+  rules:
+    # Empty host matches any request that doesn't match other Ingress rules
+    - host: ""
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: default-backend
+                port:
+                  number: 80
