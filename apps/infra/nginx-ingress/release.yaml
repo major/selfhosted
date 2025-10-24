@@ -28,7 +28,7 @@ spec:
 
       # TCP services passthrough - expose PostgreSQL
       tcp:
-        5432: "postgres/postgres-rw:5432"  # Maps external port 5432 to postgres service
+        "5432": "postgres/postgres-rw:5432"  # Maps external port 5432 to postgres service
 
       # Enable metrics
       metrics:
