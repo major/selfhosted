@@ -28,7 +28,7 @@ Before deploying hvcwatch, you need to create a sealed secret with your credenti
 **Option 1: With Mastodon notifications**
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-config create secret generic hvcwatch-secrets \
+kubectl --kubeconfig ~/.kube/k3s-psychz-config create secret generic hvcwatch-secrets \
   --namespace=hvcwatch \
   --from-literal=fastmail-user='your-email@fastmail.com' \
   --from-literal=fastmail-pass='your-app-specific-password' \
@@ -37,7 +37,7 @@ kubectl --kubeconfig ~/.kube/k3s-config create secret generic hvcwatch-secrets \
   --from-literal=mastodon-server-url='https://mastodon.social' \
   --from-literal=mastodon-access-token='your-mastodon-access-token' \
   --dry-run=client -o yaml | \
-kubeseal --kubeconfig ~/.kube/k3s-config \
+kubeseal --kubeconfig ~/.kube/k3s-psychz-config \
   --controller-name=sealed-secrets \
   --controller-namespace=sealed-secrets \
   --format=yaml > apps/base/hvcwatch/sealed-secret.yaml
@@ -46,14 +46,14 @@ kubeseal --kubeconfig ~/.kube/k3s-config \
 **Option 2: Without Mastodon notifications**
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-config create secret generic hvcwatch-secrets \
+kubectl --kubeconfig ~/.kube/k3s-psychz-config create secret generic hvcwatch-secrets \
   --namespace=hvcwatch \
   --from-literal=fastmail-user='your-email@fastmail.com' \
   --from-literal=fastmail-pass='your-app-specific-password' \
   --from-literal=discord-webhook-url='https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN' \
   --from-literal=polygon-api-key='your-polygon-api-key' \
   --dry-run=client -o yaml | \
-kubeseal --kubeconfig ~/.kube/k3s-config \
+kubeseal --kubeconfig ~/.kube/k3s-psychz-config \
   --controller-name=sealed-secrets \
   --controller-namespace=sealed-secrets \
   --format=yaml > apps/base/hvcwatch/sealed-secret.yaml
@@ -100,13 +100,13 @@ Check deployment status:
 
 ```bash
 # Check pod status
-kubectl --kubeconfig ~/.kube/k3s-config -n hvcwatch get pods
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n hvcwatch get pods
 
 # View logs
-kubectl --kubeconfig ~/.kube/k3s-config -n hvcwatch logs -l app=hvcwatch -f
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n hvcwatch logs -l app=hvcwatch -f
 
 # Check deployment
-kubectl --kubeconfig ~/.kube/k3s-config -n hvcwatch get deployment
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n hvcwatch get deployment
 ```
 
 ## 🔍 Troubleshooting
@@ -116,8 +116,8 @@ kubectl --kubeconfig ~/.kube/k3s-config -n hvcwatch get deployment
 Check if the sealed secret was created correctly:
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-config -n hvcwatch get sealedsecrets
-kubectl --kubeconfig ~/.kube/k3s-config -n hvcwatch get secrets
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n hvcwatch get sealedsecrets
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n hvcwatch get secrets
 ```
 
 ### Secret decryption errors
@@ -129,7 +129,7 @@ If you see "no key could decrypt secret", the sealed secret was encrypted with a
 Check the logs for IMAP connection errors:
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-config -n hvcwatch logs -l app=hvcwatch --tail=100
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n hvcwatch logs -l app=hvcwatch --tail=100
 ```
 
 Verify your Fastmail credentials and that you're using an app-specific password (not your main account password).

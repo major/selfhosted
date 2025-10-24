@@ -27,11 +27,11 @@ echo "Your webhook token: $TOKEN"
 
 ```bash
 # Replace YOUR_TOKEN_HERE with the token generated above
-kubectl --kubeconfig ~/.kube/k3s-config create secret generic webhook-token \
+kubectl --kubeconfig ~/.kube/k3s-psychz-config create secret generic webhook-token \
   --namespace=flux-system \
   --from-literal=token='YOUR_TOKEN_HERE' \
   --dry-run=client -o yaml | \
-kubeseal --kubeconfig ~/.kube/k3s-config \
+kubeseal --kubeconfig ~/.kube/k3s-psychz-config \
   --controller-name=sealed-secrets \
   --controller-namespace=sealed-secrets \
   --format=yaml > apps/base/flux-webhook/webhook-token-secret.yaml
@@ -46,7 +46,7 @@ After deploying the webhook receiver, configure GitHub to send webhook events:
 3. Configure the webhook:
    - **Payload URL**: Get the URL from the receiver:
      ```bash
-     kubectl --kubeconfig ~/.kube/k3s-config -n flux-system get receiver github-receiver -o jsonpath='{.status.webhookPath}'
+     kubectl --kubeconfig ~/.kube/k3s-psychz-config -n flux-system get receiver github-receiver -o jsonpath='{.status.webhookPath}'
      ```
      The full URL will be: `https://webhook.amajor.cloud/hook/<receiver-id>`
 
@@ -79,10 +79,10 @@ flux reconcile kustomization apps
 
 ```bash
 # Get receiver status
-kubectl --kubeconfig ~/.kube/k3s-config -n flux-system get receiver github-receiver
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n flux-system get receiver github-receiver
 
 # Get webhook URL
-kubectl --kubeconfig ~/.kube/k3s-config -n flux-system get receiver github-receiver -o jsonpath='{.status.webhookPath}'
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n flux-system get receiver github-receiver -o jsonpath='{.status.webhookPath}'
 ```
 
 ### Test the Webhook
@@ -105,7 +105,7 @@ flux get sources git
 ### View Receiver Logs
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-config -n flux-system logs -l app=notification-controller --tail=100
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n flux-system logs -l app=notification-controller --tail=100
 ```
 
 ## 🔧 Troubleshooting
@@ -127,11 +127,11 @@ If you see "no key could decrypt secret", re-create the sealed secret:
 # Get a fresh token or use your existing one
 TOKEN="your-existing-token"
 
-kubectl --kubeconfig ~/.kube/k3s-config create secret generic webhook-token \
+kubectl --kubeconfig ~/.kube/k3s-psychz-config create secret generic webhook-token \
   --namespace=flux-system \
   --from-literal=token="$TOKEN" \
   --dry-run=client -o yaml | \
-kubeseal --kubeconfig ~/.kube/k3s-config \
+kubeseal --kubeconfig ~/.kube/k3s-psychz-config \
   --controller-name=sealed-secrets \
   --controller-namespace=sealed-secrets \
   --format=yaml > apps/base/flux-webhook/webhook-token-secret.yaml
@@ -142,7 +142,7 @@ kubeseal --kubeconfig ~/.kube/k3s-config \
 Verify the receiver was created:
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-config -n flux-system get receivers
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n flux-system get receivers
 ```
 
 If missing, check Flux logs:
