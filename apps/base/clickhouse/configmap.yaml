@@ -44,9 +44,17 @@ data:
   users.xml: |
     <clickhouse>
       <users>
-        <!-- Admin user with password from environment variable (sealed secret) -->
-        <!-- The actual username and password will be set via environment variables -->
-        <!-- This is just the profile/quota configuration -->
+        <!-- Default user is required by ClickHouse but configured as readonly -->
+        <!-- This user has no password and can only access from localhost -->
+        <default>
+          <password></password>
+          <networks>
+            <ip>::1</ip>
+            <ip>127.0.0.1</ip>
+          </networks>
+          <profile>readonly</profile>
+          <quota>default</quota>
+        </default>
       </users>
 
       <profiles>
@@ -55,6 +63,10 @@ data:
           <use_uncompressed_cache>0</use_uncompressed_cache>
           <load_balancing>random</load_balancing>
         </default>
+        <!-- Readonly profile for the default user -->
+        <readonly>
+          <readonly>1</readonly>
+        </readonly>
       </profiles>
 
       <quotas>

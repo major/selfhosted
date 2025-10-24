@@ -33,7 +33,7 @@ kubectl create secret generic stockchartsalerts-secrets \
   --from-literal=discord-webhook-url=YOUR_DISCORD_WEBHOOK_URL \
   --namespace=stockchartsalerts \
   --dry-run=client -o yaml | \
-kubeseal --kubeconfig ~/.kube/k3s-config \
+kubeseal --kubeconfig ~/.kube/k3s-psychz-config \
   --controller-name=sealed-secrets \
   --controller-namespace=sealed-secrets \
   --format=yaml > apps/base/stockchartsalerts/sealedsecret.yaml
@@ -55,13 +55,13 @@ The sealed secret is safe to commit to Git. Once pushed, Flux will automatically
 ### Check Deployment Status
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-config -n stockchartsalerts get pods
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n stockchartsalerts get pods
 ```
 
 ### View Logs
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-config -n stockchartsalerts logs -l app=stockchartsalerts -f
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n stockchartsalerts logs -l app=stockchartsalerts -f
 ```
 
 ### Force Flux Reconciliation
@@ -73,7 +73,7 @@ flux reconcile kustomization apps
 ### Restart the Deployment
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-config -n stockchartsalerts rollout restart deployment/stockchartsalerts
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n stockchartsalerts rollout restart deployment/stockchartsalerts
 ```
 
 ## 🐛 Troubleshooting
@@ -81,19 +81,19 @@ kubectl --kubeconfig ~/.kube/k3s-config -n stockchartsalerts rollout restart dep
 ### Check if the secret exists
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-config -n stockchartsalerts get secret stockchartsalerts-secrets
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n stockchartsalerts get secret stockchartsalerts-secrets
 ```
 
 ### Check deployment events
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-config -n stockchartsalerts describe deployment stockchartsalerts
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n stockchartsalerts describe deployment stockchartsalerts
 ```
 
 ### Check pod events
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-config -n stockchartsalerts describe pod -l app=stockchartsalerts
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n stockchartsalerts describe pod -l app=stockchartsalerts
 ```
 
 ## 📊 Resource Limits

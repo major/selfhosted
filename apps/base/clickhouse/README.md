@@ -28,12 +28,12 @@ First, choose a strong password for your ClickHouse admin user. Then create an e
 
 ```bash
 # Replace 'YOUR_STRONG_PASSWORD_HERE' with your actual password
-kubectl --kubeconfig ~/.kube/k3s-config create secret generic clickhouse-auth \
+kubectl --kubeconfig ~/.kube/k3s-psychz-config create secret generic clickhouse-auth \
   --namespace=clickhouse \
   --from-literal=admin-user='admin' \
   --from-literal=admin-password='YOUR_STRONG_PASSWORD_HERE' \
   --dry-run=client -o yaml | \
-kubeseal --kubeconfig ~/.kube/k3s-config \
+kubeseal --kubeconfig ~/.kube/k3s-psychz-config \
   --controller-name=sealed-secrets \
   --controller-namespace=sealed-secrets \
   --format=yaml > apps/base/clickhouse/sealed-secret.yaml
@@ -79,16 +79,16 @@ Watch the deployment progress:
 
 ```bash
 # Watch ClickHouse pods starting up
-kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse get pods -w
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n clickhouse get pods -w
 
 # Check the init container logs (this sets up authentication)
-kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse logs -l app=clickhouse -c setup-auth
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n clickhouse logs -l app=clickhouse -c setup-auth
 
 # Check the main ClickHouse container logs
-kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse logs -l app=clickhouse -c clickhouse -f
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n clickhouse logs -l app=clickhouse -c clickhouse -f
 
 # Check certificate status
-kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse get certificate
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n clickhouse get certificate
 ```
 
 ### Step 5: Access ClickHouse
@@ -218,7 +218,7 @@ Edit `configmap.yaml` to adjust:
 
 ```bash
 # Check init container logs
-kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse logs -l app=clickhouse -c setup-auth
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n clickhouse logs -l app=clickhouse -c setup-auth
 
 # Common issue: Sealed secret not created yet
 # Solution: Follow Step 1 above to create it
@@ -228,39 +228,39 @@ kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse logs -l app=clickhouse -c 
 
 ```bash
 # Verify the service is running
-kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse get svc
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n clickhouse get svc
 
 # Check if pods are ready
-kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse get pods
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n clickhouse get pods
 
 # Verify NetworkPolicy allows your connection
-kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse describe networkpolicy clickhouse
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n clickhouse describe networkpolicy clickhouse
 ```
 
 ### Authentication fails
 
 ```bash
 # Verify the sealed secret was created correctly
-kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse get sealedsecret
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n clickhouse get sealedsecret
 
 # Check if the secret was decrypted
-kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse get secret clickhouse-auth
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n clickhouse get secret clickhouse-auth
 
 # Review init container logs for password hash generation
-kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse logs -l app=clickhouse -c setup-auth
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n clickhouse logs -l app=clickhouse -c setup-auth
 ```
 
 ### Certificate not issued
 
 ```bash
 # Check certificate status
-kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse get certificate
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n clickhouse get certificate
 
 # View cert-manager logs
-kubectl --kubeconfig ~/.kube/k3s-config -n cert-manager logs -l app.kubernetes.io/name=cert-manager -f
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n cert-manager logs -l app.kubernetes.io/name=cert-manager -f
 
 # Verify ingress is configured
-kubectl --kubeconfig ~/.kube/k3s-config -n clickhouse get ingress
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n clickhouse get ingress
 ```
 
 ## 📚 Resources
