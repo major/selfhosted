@@ -86,6 +86,6 @@ spec:
     keeper:
       enabled: false
 
-    # Disable operator for now (simpler setup)
+    # Enable operator (required for ClickHouseInstallation CRD)
     operator:
-      enabled: false
+      enabled: true
