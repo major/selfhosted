@@ -21,6 +21,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: clickhouse-client
+                name: clickhouse
                 port:
                   number: 8123
