@@ -35,6 +35,7 @@ postgresql://postgres:<PASSWORD>@<LOADBALANCER-IP>:5432/postgres
 ### Adminer Web UI
 ```
 URL: https://adminer.amajor.cloud
+System: PostgreSQL
 Server: postgres-rw
 Username: postgres
 Password: <get from command above>

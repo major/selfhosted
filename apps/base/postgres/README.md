@@ -5,7 +5,7 @@ PostgreSQL deployment using CloudNativePG operator for Kubernetes-native databas
 ## Architecture
 
 - **Operator**: CloudNativePG operator (deployed in `cnpg-system` namespace)
-- **Database**: Single-instance PostgreSQL 16 cluster
+- **Database**: Single-instance PostgreSQL 17 cluster
 - **Storage**: 20Gi PersistentVolume using K3s `local-path` storage class
 - **GUI**: Adminer web interface at `adminer.amajor.cloud`
 - **External Access**: TCP port 5432 exposed via Nginx Ingress LoadBalancer
@@ -19,12 +19,13 @@ PostgreSQL deployment using CloudNativePG operator for Kubernetes-native databas
 - **Instances**: 1 (single instance, suitable for dev/testing)
 - **Primary Service**: `postgres-rw` (read-write endpoint)
 - **Storage**: 20Gi PVC
+- **Superuser**: Enabled
 
 ### Initial Configuration
 
 The cluster is bootstrapped with:
-- **Default Database**: `postgres` (PostgreSQL default)
-- **Superuser**: `postgres`
+- **Default Database**: `postgres`
+- **Superuser**: `postgres` (enabled for remote access)
 
 The superuser password is stored in a sealed secret:
 - `postgres-superuser` - superuser credentials
@@ -38,7 +39,7 @@ All application users and databases should be created manually via SQL.
 Host: postgres-rw.postgres.svc.cluster.local
 Port: 5432
 Database: postgres (or your custom database)
-Username: postgres (or your custom user)
+Username: postgres
 ```
 
 **External (from internet):**
@@ -46,7 +47,7 @@ Username: postgres (or your custom user)
 Host: <nginx-ingress-loadbalancer-ip>
 Port: 5432
 Database: postgres (or your custom database)
-Username: postgres (or your custom user)
+Username: postgres
 ```
 
 To get the LoadBalancer IP:
@@ -58,9 +59,10 @@ kubectl --kubeconfig ~/.kube/k3s-psychz-config -n ingress-nginx get svc ingress-
 
 Adminer is accessible at: **https://adminer.amajor.cloud**
 
-- **Default Server**: `postgres-rw` (automatically filled in)
-- **Username**: `postgres` (or your custom users)
-- **Password**: Stored in sealed secrets (see command below)
+- **System**: PostgreSQL
+- **Server**: `postgres-rw`
+- **Username**: `postgres`
+- **Password**: See command below
 - **Database**: `postgres` (or leave blank to see all databases)
 
 ## Getting Database Password
@@ -68,7 +70,8 @@ Adminer is accessible at: **https://adminer.amajor.cloud**
 To retrieve the postgres superuser password (requires kubectl access):
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-psychz-config -n postgres get secret postgres-superuser -o jsonpath='{.data.password}' | base64 -d
+kubectl --kubeconfig ~/.kube/k3s-psychz-config -n postgres \
+  get secret postgres-superuser -o jsonpath='{.data.password}' | base64 -d && echo
 ```
 
 ## User Management
@@ -77,8 +80,8 @@ kubectl --kubeconfig ~/.kube/k3s-psychz-config -n postgres get secret postgres-s
 
 1. **postgres** (superuser)
    - Full administrative privileges
+   - Remote access enabled
    - Use for database administration, creating new databases, users, etc.
-   - Manage all users and permissions from this account
 
 ### Creating Additional Users
 
@@ -88,11 +91,14 @@ Connect to the database and run:
 -- Create a new user
 CREATE USER myuser WITH PASSWORD 'secure_password';
 
--- Grant privileges on a database
-GRANT ALL PRIVILEGES ON DATABASE app TO myuser;
+-- Create a new database
+CREATE DATABASE myapp;
 
--- Grant privileges on specific tables
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO myuser;
+-- Grant ownership
+ALTER DATABASE myapp OWNER TO myuser;
+
+-- Or grant specific privileges
+GRANT ALL PRIVILEGES ON DATABASE myapp TO myuser;
 ```
 
 ## Security Considerations
@@ -140,7 +146,7 @@ CloudNativePG supports automated backups to S3 or local storage. This can be con
 kubectl --kubeconfig ~/.kube/k3s-psychz-config -n postgres exec -it postgres-1 -- bash
 
 # Create backup using pg_dump
-pg_dump -U postgres app > /tmp/backup.sql
+pg_dump -U postgres myapp > /tmp/backup.sql
 ```
 
 ## Troubleshooting
@@ -165,7 +171,7 @@ kubectl --kubeconfig ~/.kube/k3s-psychz-config -n postgres describe cluster post
 ### Adminer Can't Connect
 
 - Ensure you're using `postgres-rw` as the server name
-- Verify credentials are correct
+- Verify credentials are correct (use the password retrieval command above)
 - Check that the cluster is running: `kubectl get cluster -n postgres`
 
 ## Upgrading
@@ -174,7 +180,7 @@ CloudNativePG handles PostgreSQL version upgrades gracefully. Update the image v
 
 ## Resource Usage
 
-- **PostgreSQL**: 512Mi-1Gi memory, 500m-1000m CPU
+- **PostgreSQL**: 4Gi-8Gi memory, 2-8 cores CPU
 - **Adminer**: 64Mi-128Mi memory, 50m CPU
 - **Storage**: 20Gi (can be increased by editing `cluster.yaml`)
 
