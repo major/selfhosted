@@ -16,6 +16,10 @@ spec:
         namespace: ingress-nginx
       interval: 12h
   values:
+    # TCP services for PostgreSQL passthrough (must be at root level)
+    tcp:
+      "5432": "postgres/postgres-rw:5432"
+
     controller:
       ingressClassResource:
         name: nginx
@@ -25,10 +29,6 @@ spec:
       service:
         type: LoadBalancer
         externalTrafficPolicy: Local
-
-      # TCP services for PostgreSQL passthrough
-      tcp:
-        "5432": "postgres/postgres-rw:5432"
 
       # Enable metrics
       metrics:
