@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: clickhouse
-      version: '0.3.1'
+      version: "0.3.1"
       sourceRef:
         kind: HelmRepository
         name: altinity
@@ -23,28 +23,28 @@ spec:
     clickhouse:
       # Default user (required by ClickHouse) - restricted to localhost only
       defaultUser:
-        password_secret_name: "clickhouse-default-auth"  # Separate secret for default user
-        allowExternalAccess: false  # Restrict to localhost
-        hostIP: "127.0.0.1/32"  # Localhost only
+        password_secret_name: "clickhouse-default-auth" # Separate secret for default user
+        allowExternalAccess: false # Restrict to localhost
+        hostIP: "127.0.0.1/32" # Localhost only
 
       # Custom admin user with full privileges
       users:
         - name: major
-          hostIP: ["0.0.0.0/0"]  # Allow from anywhere
-          accessManagement: 1  # Full admin privileges
-          password_secret_name: "clickhouse-major-auth"  # Separate secret for major user
+          hostIP: ["0.0.0.0/0"] # Allow from anywhere
+          accessManagement: 1 # Full admin privileges
+          password_secret_name: "clickhouse-major-auth" # Separate secret for major user
           grants:
-            - "GRANT ALL ON *.*"  # Full access to all databases
+            - "GRANT ALL ON *.*" # Full access to all databases
 
       # Persistent storage configuration
       persistence:
         enabled: true
-        size: 20Gi  # Match old setup
+        size: 20Gi # Match old setup
         accessMode: ReadWriteOnce
-        storageClass: ""  # Use default storage class
+        storageClass: "" # Use default storage class
         logs:
           enabled: true
-          size: 5Gi  # Match old setup for logs
+          size: 5Gi # Match old setup for logs
           accessMode: ReadWriteOnce
 
       # Service configuration - use ClusterIP for internal access
@@ -58,8 +58,8 @@ spec:
       configOverride:
         max_concurrent_queries: 100
         max_connections: 1000
-        max_memory_usage: 10000000000  # 10GB
-        max_bytes_before_external_group_by: 5000000000  # 5GB
+        max_memory_usage: 10000000000 # 10GB
+        max_bytes_before_external_group_by: 5000000000 # 5GB
 
         # Compression for storage efficiency
         compression:
@@ -68,19 +68,10 @@ spec:
 
         # Logging configuration
         logger:
-          level: trace
+          level: info
           console: true
           size: 100M
           count: 3
-
-      # Resource limits - match old setup
-      resources:
-        requests:
-          memory: "512Mi"
-          cpu: "250m"
-        limits:
-          memory: "4Gi"
-          cpu: "2000m"
 
     # Disable Keeper for single-node setup (we don't need clustering yet)
     keeper:
