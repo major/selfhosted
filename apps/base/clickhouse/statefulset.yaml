@@ -1,0 +1,116 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: clickhouse
+  namespace: clickhouse
+spec:
+  serviceName: clickhouse
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clickhouse
+  template:
+    metadata:
+      labels:
+        app: clickhouse
+    spec:
+      # Init container to setup user authentication from sealed secret
+      initContainers:
+      - name: setup-auth
+        image: clickhouse/clickhouse-server:latest@sha256:8988c8ae77dba206d2810d74968d0755dfa0658f7f39b421e9c3fa64f9bdb75e
+        command: ['/bin/bash', '/scripts/setup-users.sh']
+        env:
+        - name: CLICKHOUSE_ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              name: clickhouse-auth
+              key: admin-user
+              optional: true  # Will be created after you run the kubeseal command
+        - name: CLICKHOUSE_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: clickhouse-auth
+              key: admin-password
+              optional: true  # Will be created after you run the kubeseal command
+        volumeMounts:
+        - name: scripts
+          mountPath: /scripts
+        - name: users-config
+          mountPath: /etc/clickhouse-server/users.d
+      containers:
+      - name: clickhouse
+        image: clickhouse/clickhouse-server:latest@sha256:8988c8ae77dba206d2810d74968d0755dfa0658f7f39b421e9c3fa64f9bdb75e
+        ports:
+        - containerPort: 8123
+          name: http
+        - containerPort: 9000
+          name: native
+        - containerPort: 9009
+          name: interserver
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/clickhouse
+        - name: logs
+          mountPath: /var/log/clickhouse-server
+        - name: config
+          mountPath: /etc/clickhouse-server/config.d/config.xml
+          subPath: config.xml
+        - name: config
+          mountPath: /etc/clickhouse-server/users.xml
+          subPath: users.xml
+        # Mount the dynamically generated users.d config
+        - name: users-config
+          mountPath: /etc/clickhouse-server/users.d
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 8123
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 8123
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+      volumes:
+      - name: config
+        configMap:
+          name: clickhouse-config
+      - name: scripts
+        configMap:
+          name: clickhouse-config
+          defaultMode: 0755
+          items:
+          - key: setup-users.sh
+            path: setup-users.sh
+      # Shared volume for dynamically generated user configuration
+      - name: users-config
+        emptyDir: {}
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 20Gi
+  - metadata:
+      name: logs
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
