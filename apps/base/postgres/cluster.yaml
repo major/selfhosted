@@ -12,12 +12,18 @@ spec:
     size: 20Gi
     storageClass: local-path  # K3s default storage class
 
-  # Bootstrap configuration - only creates default postgres database
-  # Users and databases will be created manually via SQL
+  # Enable superuser access
+  enableSuperuserAccess: true
 
   # Superuser secret
   superuserSecret:
     name: postgres-superuser  # Secret for postgres superuser password
+
+  # Bootstrap configuration - use default postgres database
+  bootstrap:
+    initdb:
+      database: postgres
+      owner: postgres
 
   # PostgreSQL configuration (optimized for 8Gi memory)
   postgresql:
