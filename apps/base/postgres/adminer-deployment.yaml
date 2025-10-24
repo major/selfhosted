@@ -18,14 +18,11 @@ spec:
     spec:
       containers:
         - name: adminer
-          image: docker.io/library/adminer:5.4.1
+          image: adminer:5.4.1@sha256:bf7ea9bd62afd2d34045b4098ad68feb4a08ad9f75f28dc5d9b7d6d84d63005c
           ports:
             - containerPort: 8080
               name: http
           env:
-            # Set design to a nicer theme
-            - name: ADMINER_DESIGN
-              value: "pepa-linha"
             # Default server (can be overridden in UI)
             - name: ADMINER_DEFAULT_SERVER
               value: "postgres-rw"
@@ -36,8 +33,6 @@ spec:
             limits:
               memory: 128Mi
           securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
             allowPrivilegeEscalation: false
             capabilities:
               drop:
