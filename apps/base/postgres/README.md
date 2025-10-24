@@ -23,13 +23,13 @@ PostgreSQL deployment using CloudNativePG operator for Kubernetes-native databas
 ### Initial Configuration
 
 The cluster is bootstrapped with:
-- **Default Database**: `app`
-- **Database Owner**: `appuser`
+- **Default Database**: `postgres` (PostgreSQL default)
 - **Superuser**: `postgres`
 
-Both users have randomly generated passwords stored in sealed secrets:
+The superuser password is stored in a sealed secret:
 - `postgres-superuser` - superuser credentials
-- `postgres-app-user` - application user credentials
+
+All application users and databases should be created manually via SQL.
 
 ### Connection Details
 
@@ -37,16 +37,16 @@ Both users have randomly generated passwords stored in sealed secrets:
 ```
 Host: postgres-rw.postgres.svc.cluster.local
 Port: 5432
-Database: app
-Username: appuser (or postgres for admin)
+Database: postgres (or your custom database)
+Username: postgres (or your custom user)
 ```
 
 **External (from internet):**
 ```
 Host: <nginx-ingress-loadbalancer-ip>
 Port: 5432
-Database: app
-Username: appuser (or postgres for admin)
+Database: postgres (or your custom database)
+Username: postgres (or your custom user)
 ```
 
 To get the LoadBalancer IP:
@@ -59,22 +59,16 @@ kubectl --kubeconfig ~/.kube/k3s-psychz-config -n ingress-nginx get svc ingress-
 Adminer is accessible at: **https://adminer.amajor.cloud**
 
 - **Default Server**: `postgres-rw` (automatically filled in)
-- **Username**: Use `postgres` or `appuser`
-- **Password**: Stored in sealed secrets (check cluster or ask admin)
-- **Database**: `app` (or leave blank to see all databases)
+- **Username**: `postgres` (or your custom users)
+- **Password**: Stored in sealed secrets (see command below)
+- **Database**: `postgres` (or leave blank to see all databases)
 
-## Getting Database Passwords
+## Getting Database Password
 
-To retrieve the passwords (requires kubectl access):
+To retrieve the postgres superuser password (requires kubectl access):
 
-**Postgres superuser password:**
 ```bash
 kubectl --kubeconfig ~/.kube/k3s-psychz-config -n postgres get secret postgres-superuser -o jsonpath='{.data.password}' | base64 -d
-```
-
-**App user password:**
-```bash
-kubectl --kubeconfig ~/.kube/k3s-psychz-config -n postgres get secret postgres-app-user -o jsonpath='{.data.password}' | base64 -d
 ```
 
 ## User Management
@@ -84,11 +78,7 @@ kubectl --kubeconfig ~/.kube/k3s-psychz-config -n postgres get secret postgres-a
 1. **postgres** (superuser)
    - Full administrative privileges
    - Use for database administration, creating new databases, users, etc.
-
-2. **appuser** (database owner)
-   - Owner of the `app` database
-   - Full privileges on `app` database
-   - Use for application connections
+   - Manage all users and permissions from this account
 
 ### Creating Additional Users
 
