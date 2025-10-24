@@ -19,7 +19,7 @@ spec:
       containers:
         - name: default-backend
           # Simple nginx serving default 404 page
-          image: nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10
+          image: nginx:1.29-alpine@sha256:61e01287e546aac28a3f56839c136b31f590273f3b41187a36f46f6a03bbfe22
           ports:
             - containerPort: 80
           resources:
