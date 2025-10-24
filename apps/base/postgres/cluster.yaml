@@ -19,6 +19,11 @@ spec:
   superuserSecret:
     name: postgres-superuser  # Secret for postgres superuser password
 
+  # TLS certificate configuration for external access
+  certificates:
+    serverAltDNSNames:
+      - postgres.amajor.cloud
+
   # Bootstrap configuration - use default postgres database
   bootstrap:
     initdb:
@@ -46,8 +51,8 @@ spec:
 
     # Client authentication configuration
     pg_hba:
-      # Allow connections with SSL from anywhere
-      - host all all all scram-sha-256
+      # Require SSL for all connections from anywhere
+      - hostssl all all all scram-sha-256
 
   # Resource limits
   resources:
