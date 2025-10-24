@@ -28,7 +28,7 @@ spec:
 
       # TCP services for PostgreSQL passthrough
       tcp:
-        5432: "postgres/postgres-rw:5432"
+        "5432": "postgres/postgres-rw:5432"
 
       # Enable metrics
       metrics:
