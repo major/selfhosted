@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(kubectl:*)",
+      "Bash(flux get:*)",
+      "Bash(find:*)",
+      "Bash(kustomize build:*)",
+      "Read(//home/major/git/major/hvcwatch/**)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(mkdir:*)",
+      "Bash(skopeo inspect:*)",
+      "WebFetch(domain:fluxcd.io)",
+      "Bash(git fetch:*)",
+      "Bash(curl -s http://108.181.89.22:80/)",
+      "Bash(curl -I http://108.181.89.22:80/Java/iKVM__V1.69.31.0x0.jar)",
+      "Bash(curl -s http://108.181.89.22)",
+      "Bash(curl -s http://108.181.89.22/page/login.html)",
+      "Bash(flux:*)",
+      "Bash(curl:*)",
+      "Bash(helm:*)",
+      "Bash(openssl rand:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

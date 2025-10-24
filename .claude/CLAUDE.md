@@ -75,6 +75,8 @@ apps (all applications)
 6. Changes are applied immediately via webhook, or within 10 minutes via polling
 7. To force immediate sync: `flux reconcile kustomization apps`
 
+**NEVER USE BITNAMI HELM TEMPLATES. NEVER.**
+
 ### Example Ingress Configuration
 
 ```yaml
