@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: cloudnative-pg
-      version: '0.22.1'  # Latest stable version as of 2025
+      version: '0.26.1'  # Latest stable version as of 2025
       sourceRef:
         kind: HelmRepository
         name: cloudnative-pg
