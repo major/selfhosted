@@ -23,7 +23,7 @@ spec:
     clickhouse:
       # Default user (required by ClickHouse) - restricted to localhost only
       defaultUser:
-        password_secret_name: "clickhouse-default-auth" # Separate secret for default user
+        password_secret_name: "clickhouse-credentials" # Chart hardcodes this name
         allowExternalAccess: false # Restrict to localhost
         hostIP: "127.0.0.1/32" # Localhost only
 
@@ -68,7 +68,7 @@ spec:
 
         # Logging configuration
         logger:
-          level: info
+          level: warning
           console: true
           size: 100M
           count: 3

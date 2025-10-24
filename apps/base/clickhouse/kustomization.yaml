@@ -5,6 +5,5 @@ resources:
   - namespace.yaml
   - repository.yaml
   - release.yaml
-  - sealed-secret-default.yaml
-  - sealed-secret-major.yaml
+  - sealed-secret-default.yaml  # Creates clickhouse-credentials secret
   - ingress.yaml
