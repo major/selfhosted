@@ -43,10 +43,6 @@ spec:
       # Allow connections with SSL from anywhere
       - host all all all scram-sha-256
 
-  # Monitoring (can be enabled later with Prometheus)
-  monitoring:
-    enabled: false
-
   # Resource limits
   resources:
     requests:
