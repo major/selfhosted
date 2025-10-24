@@ -24,22 +24,6 @@ spec:
     serverAltDNSNames:
       - postgres.amajor.cloud
 
-  # Managed services - expose PostgreSQL externally via LoadBalancer
-  managed:
-    services:
-      additional:
-        - selectorType: rw  # Read-write service
-          serviceTemplate:
-            metadata:
-              name: postgres-lb
-            spec:
-              type: LoadBalancer
-              ports:
-                - name: postgres
-                  port: 5432
-                  protocol: TCP
-                  targetPort: 5432
-
   # Bootstrap configuration - use default postgres database
   bootstrap:
     initdb:
