@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - sealed-secret-superuser.yaml
-  - sealed-secret-app-user.yaml
   - cluster.yaml
   - adminer-deployment.yaml
   - adminer-service.yaml
