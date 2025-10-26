@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: stockchartsalerts
-          image: ghcr.io/major/stockchartsalerts@sha256:edc115b97a709fb1105fa16cc89bf3ebab2e591a21a0c907ba30dd8d6a212de4
+          image: ghcr.io/major/stockchartsalerts@sha256:b0ad5c8c7aef5fec4d61bbc0761e3e00d8c4cc1aafa4036c3c88b06fff8a536c
           imagePullPolicy: IfNotPresent
           env:
             - name: SENTRY_DSN
