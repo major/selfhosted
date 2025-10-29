@@ -16,10 +16,6 @@ spec:
         namespace: ingress-nginx
       interval: 12h
   values:
-    # TCP services for PostgreSQL passthrough (must be at root level)
-    tcp:
-      "5432": "postgres/postgres-rw:5432"
-
     controller:
       ingressClassResource:
         name: nginx
