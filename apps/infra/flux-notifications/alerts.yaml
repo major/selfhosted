@@ -1,5 +1,5 @@
 ---
-# 🚨 Alert for all Kustomization resources
+# 🚨 Alert for Kustomization errors/failures only
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
@@ -8,14 +8,14 @@ metadata:
 spec:
   providerRef:
     name: discord
-  eventSeverity: info
+  eventSeverity: error
   eventSources:
     - kind: Kustomization
       name: '*'
       namespace: flux-system
-  summary: "Flux Kustomization Alert"
+  summary: "⚠️ Flux Kustomization Error"
 ---
-# 🚨 Alert for all HelmRelease resources
+# 🚨 Alert for HelmRelease errors/failures only
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
@@ -24,41 +24,9 @@ metadata:
 spec:
   providerRef:
     name: discord
-  eventSeverity: info
+  eventSeverity: error
   eventSources:
     - kind: HelmRelease
       name: '*'
       namespace: '*'
-  summary: "Flux HelmRelease Alert"
----
-# 🚨 Alert for all GitRepository resources
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
-kind: Alert
-metadata:
-  name: gitrepositories
-  namespace: flux-system
-spec:
-  providerRef:
-    name: discord
-  eventSeverity: info
-  eventSources:
-    - kind: GitRepository
-      name: '*'
-      namespace: flux-system
-  summary: "Flux GitRepository Alert"
----
-# 🚨 Alert for all HelmRepository resources
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
-kind: Alert
-metadata:
-  name: helmrepositories
-  namespace: flux-system
-spec:
-  providerRef:
-    name: discord
-  eventSeverity: info
-  eventSources:
-    - kind: HelmRepository
-      name: '*'
-      namespace: '*'
-  summary: "Flux HelmRepository Alert"
+  summary: "⚠️ Flux HelmRelease Error"
