@@ -1,0 +1,71 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thetagang-notifications
+  namespace: thetagang
+  labels:
+    app: thetagang-notifications
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: thetagang-notifications
+  template:
+    metadata:
+      labels:
+        app: thetagang-notifications
+    spec:
+      containers:
+        - name: thetagang-notifications
+          image: ghcr.io/major/thetagang-notifications:main@sha256:a5659bb73ebe5ae0246f7c3b0168c26913b52e214c1526ee297d695e99db37ad
+          imagePullPolicy: Always
+          securityContext:
+            readOnlyRootFilesystem: true
+          env:
+            # 🔐 Sensitive credentials from SealedSecret
+            - name: WEBHOOK_URL_TRADES
+              valueFrom:
+                secretKeyRef:
+                  name: thetagang-secrets
+                  key: webhook-url-trades
+            - name: TRADES_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: thetagang-secrets
+                  key: trades-api-key
+
+            # ⚙️ Application configuration
+            - name: DAEMONIZE_TRADE_BOT
+              value: "1"
+            - name: PATRON_TRADES_ONLY
+              value: "1"
+            - name: STORAGE_DIR
+              value: "/storage"
+            - name: SKIPPED_USERS
+              value: "antithetagang,jrue"
+
+            # 🔗 Redis connection (cross-namespace communication)
+            - name: REDIS_HOST
+              value: "redis.redis-system.svc.cluster.local"
+            - name: REDIS_PORT
+              value: "6379"
+
+          volumeMounts:
+            - name: storage
+              mountPath: /storage
+
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: thetagang-storage
