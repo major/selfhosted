@@ -1,0 +1,83 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stocknews
+  namespace: stocknews
+  labels:
+    app: stocknews
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stocknews
+  template:
+    metadata:
+      labels:
+        app: stocknews
+    spec:
+      containers:
+      - name: stocknews
+        image: ghcr.io/major/stocknews@sha256:e1dfbbd07950a4c0e60d73423eb7828f69b473a6ceb0537838241f5a69cacbeb
+        env:
+        # Non-sensitive environment variables
+        - name: NEWS_API_ENDPOINT
+          value: "https://data.alpaca.markets/v1beta1/news"
+        - name: MASTODON_SERVER_URL
+          value: "https://tootloop.com"
+        - name: TZ
+          value: "America/Chicago"
+        # Sensitive environment variables from sealed secret
+        - name: NEWS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: stocknews-secrets
+              key: NEWS_API_KEY
+        - name: NEWS_API_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: stocknews-secrets
+              key: NEWS_API_SECRET
+        - name: DISCORD_EARNINGS_WEBHOOKS
+          valueFrom:
+            secretKeyRef:
+              name: stocknews-secrets
+              key: DISCORD_EARNINGS_WEBHOOKS
+        - name: DISCORD_ANALYST_WEBHOOK
+          valueFrom:
+            secretKeyRef:
+              name: stocknews-secrets
+              key: DISCORD_ANALYST_WEBHOOK
+        - name: DISCORD_NEWS_WEBHOOK
+          valueFrom:
+            secretKeyRef:
+              name: stocknews-secrets
+              key: DISCORD_NEWS_WEBHOOK
+        - name: MASTODON_SERVER_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: stocknews-secrets
+              key: MASTODON_SERVER_TOKEN
+        - name: ALPACA_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: stocknews-secrets
+              key: ALPACA_API_KEY
+        - name: ALPACA_API_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: stocknews-secrets
+              key: ALPACA_API_SECRET
+        - name: SENTRY_DSN
+          valueFrom:
+            secretKeyRef:
+              name: stocknews-secrets
+              key: SENTRY_DSN
+        tty: true
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
