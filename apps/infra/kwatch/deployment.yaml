@@ -23,19 +23,13 @@ spec:
         - name: kwatch
           image: ghcr.io/abahmed/kwatch:v0.10.3@sha256:e3aab18e170ab655539ab77261717cf476d0245986f5691ee65a6bf481a4e89e
           imagePullPolicy: Always
-          args:
-            - -c
-            - /config/config.yaml
           env:
-            # 🔐 Discord webhook from secret
-            - name: DISCORD_WEBHOOK_URL
-              valueFrom:
-                secretKeyRef:
-                  name: kwatch-secret
-                  key: discord-webhook-url
+            - name: CONFIG_FILE
+              value: /config/config.yaml
           volumeMounts:
             - name: config
               mountPath: /config
+              readOnly: true
           resources:
             requests:
               memory: "64Mi"
@@ -45,5 +39,5 @@ spec:
               cpu: "100m"
       volumes:
         - name: config
-          configMap:
-            name: kwatch
+          secret:
+            secretName: kwatch-config

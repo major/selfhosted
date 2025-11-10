@@ -6,6 +6,5 @@ resources:
   - namespace.yaml
   - serviceaccount.yaml
   - rbac.yaml
-  - configmap.yaml
-  - sealed-secret.yaml
+  - sealed-config.yaml
   - deployment.yaml
