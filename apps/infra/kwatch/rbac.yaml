@@ -1,0 +1,36 @@
+---
+# 🔐 ClusterRole: Permissions for kwatch to monitor cluster events
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kwatch
+rules:
+  - apiGroups: [""]
+    resources:
+      - events
+      - pods
+      - pods/log
+      - persistentvolumeclaims
+      - nodes
+    verbs: ["get", "watch", "list"]
+  - apiGroups: ["apps"]
+    resources:
+      - deployments
+      - daemonsets
+      - statefulsets
+      - replicasets
+    verbs: ["get", "watch", "list"]
+---
+# 🔗 ClusterRoleBinding: Bind role to ServiceAccount
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kwatch
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kwatch
+subjects:
+  - kind: ServiceAccount
+    name: kwatch
+    namespace: kwatch

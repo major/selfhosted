@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kwatch
+  namespace: kwatch
+  labels:
+    app: kwatch
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: kwatch
+  template:
+    metadata:
+      labels:
+        app: kwatch
+    spec:
+      serviceAccountName: kwatch
+      containers:
+        - name: kwatch
+          image: ghcr.io/abahmed/kwatch:v0.10.3@sha256:e3aab18e170ab655539ab77261717cf476d0245986f5691ee65a6bf481a4e89e
+          imagePullPolicy: Always
+          env:
+            # 🔐 Discord webhook from secret
+            - name: DISCORD_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: kwatch-secret
+                  key: discord-webhook-url
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+      volumes:
+        - name: config
+          configMap:
+            name: kwatch
