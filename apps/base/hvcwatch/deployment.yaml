@@ -36,11 +36,11 @@ spec:
                   key: fastmail-pass
 
             # Discord webhook
-            - name: DISCORD_WEBHOOK_URL
+            - name: DISCORD_WEBHOOK_URLS
               valueFrom:
                 secretKeyRef:
                   name: hvcwatch-secrets
-                  key: discord-webhook-url
+                  key: discord-webhook-urls
 
             # Polygon.io API key
             - name: POLYGON_API_KEY
