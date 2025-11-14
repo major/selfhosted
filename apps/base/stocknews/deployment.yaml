@@ -43,7 +43,7 @@ spec:
                 secretKeyRef:
                   name: stocknews-secrets
                   key: DISCORD_EARNINGS_WEBHOOKS
-            - name: DISCORD_ANALYST_WEBHOOK
+            - name: DISCORD_ANALYST_WEBHOOKS
               valueFrom:
                 secretKeyRef:
                   name: stocknews-secrets
