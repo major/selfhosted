@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: docker.io/library/redis@sha256:5c7c0445ed86918cb9efb96d95a6bfc03ed2059fe2c5f02b4d74f477ffe47915
+        image: docker.io/library/redis@sha256:49887660cd57f34b2b3bfb73ae135e2265320c48c3d76a9294e9851265e140d6
         args:
           - redis-server
           - --appendonly
