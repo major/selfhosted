@@ -67,6 +67,10 @@ spec:
             - name: SENTRY_DSN
               value: "https://52a11722515c0fd09a56c9ad0b89ecd0@o4504556291358720.ingest.us.sentry.io/4510199754129408"
 
+            # Database path
+            - name: HVCWATCH_DB_PATH
+              value: "/data/hvcwatch.db"
+
             # Optional configuration with defaults
             - name: LOG_LEVEL
               value: "INFO"
@@ -76,6 +80,9 @@ spec:
               value: "993"
             - name: IMAP_FOLDER
               value: "Trading/ToS Alerts"
+          volumeMounts:
+            - name: db-storage
+              mountPath: /data
           resources:
             requests:
               memory: "128Mi"
@@ -83,3 +90,7 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "500m"
+      volumes:
+        - name: db-storage
+          persistentVolumeClaim:
+            claimName: hvcwatch-db

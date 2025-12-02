@@ -4,5 +4,6 @@ kind: Kustomization
 namespace: hvcwatch
 resources:
   - namespace.yaml
+  - pvc.yaml
   - deployment.yaml
   - sealed-secret.yaml
