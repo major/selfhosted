@@ -25,6 +25,12 @@ spec:
           command: ['sh', '-c']
           args:
             - |
+              # Validate CLUSTER_NAME contains only safe characters
+              if ! echo "$CLUSTER_NAME" | grep -qE '^[a-zA-Z0-9_-]+$'; then
+                echo "Error: CLUSTER_NAME contains invalid characters"
+                exit 1
+              fi
+              
               # Copy the config template and substitute environment variables
               cat /config-template/config.yaml | \
               sed "s/\${CLUSTER_NAME}/$CLUSTER_NAME/g" > /config/config.yaml
@@ -45,8 +51,6 @@ spec:
           env:
             - name: CONFIG_FILE
               value: /config/config.yaml
-            - name: CLUSTER_NAME
-              value: "selfhosted"
           volumeMounts:
             - name: config
               mountPath: /config

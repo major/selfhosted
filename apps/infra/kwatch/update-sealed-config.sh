@@ -4,6 +4,9 @@
 
 set -e
 
+# Set restrictive permissions for temporary files
+umask 077
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 KUBECONFIG_PATH="${KUBECONFIG_PATH:-~/.kube/k3s-psychz-config}"
 KUBESEAL_PATH="${KUBESEAL_PATH:-/home/major/bin/kubeseal}"
