@@ -3,8 +3,8 @@
 # The actual configuration is stored in sealed-config.yaml (encrypted).
 
 app:
-  # Cluster name to include in alerts - IMPORTANT: Set this to identify your cluster
-  clusterName: selfhosted
+  # Cluster name to include in alerts - uses ${CLUSTER_NAME} environment variable
+  clusterName: ${CLUSTER_NAME}
 
 # Maximum number of log lines to include in notifications (default: 50)
 maxRecentLogLines: 50

@@ -24,21 +24,24 @@ echo "✅ Retrieved webhook URL"
 echo ""
 
 # Step 2: Create config.yaml with cluster name
-echo "📝 Step 2: Creating config.yaml with cluster name 'selfhosted'..."
-cat > /tmp/kwatch-config.yaml << EOF
+echo "📝 Step 2: Creating config.yaml with cluster name placeholder..."
+cat > /tmp/kwatch-config.yaml << 'EOF'
 app:
-  clusterName: selfhosted
+  clusterName: ${CLUSTER_NAME}
 
 maxRecentLogLines: 50
 
 alert:
   discord:
-    webhook: ${WEBHOOK_URL}
+    webhook: WEBHOOK_URL_PLACEHOLDER
 
 namespaces: []
 reasons: []
 ignoreContainerNames: []
 EOF
+
+# Replace the webhook placeholder with the actual URL
+sed -i "s|WEBHOOK_URL_PLACEHOLDER|${WEBHOOK_URL}|g" /tmp/kwatch-config.yaml
 
 echo "✅ Created config.yaml"
 echo ""

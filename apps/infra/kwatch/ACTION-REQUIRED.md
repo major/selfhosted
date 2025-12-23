@@ -2,13 +2,13 @@
 
 ## Why This Change Is Needed
 
-The kwatch deployment now includes a `CLUSTER_NAME` environment variable set to "selfhosted". However, kwatch reads its configuration from a YAML file, not directly from environment variables.
+The kwatch deployment has been updated to use environment variable substitution for the cluster name. The sealed configuration needs to be regenerated to include a `${CLUSTER_NAME}` placeholder that will be replaced at runtime with the actual cluster name ("selfhosted").
 
-Currently, alerts from kwatch do not include the cluster name, making it unclear which cluster has issues.
+Currently, alerts from kwatch may not include the cluster name, making it unclear which cluster has issues.
 
 ## What You Need to Do
 
-The `sealed-config.yaml` file needs to be regenerated to include the cluster name in the kwatch configuration.
+The `sealed-config.yaml` file needs to be regenerated to include the `${CLUSTER_NAME}` placeholder instead of a hard-coded value.
 
 ### Option 1: Use the Update Script (Recommended)
 

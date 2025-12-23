@@ -19,6 +19,25 @@ spec:
         app: kwatch
     spec:
       serviceAccountName: kwatch
+      initContainers:
+        - name: config-init
+          image: busybox:1.36
+          command: ['sh', '-c']
+          args:
+            - |
+              # Copy the config template and substitute environment variables
+              cat /config-template/config.yaml | \
+              sed "s/\${CLUSTER_NAME}/$CLUSTER_NAME/g" > /config/config.yaml
+              echo "Config file created with CLUSTER_NAME=$CLUSTER_NAME"
+          env:
+            - name: CLUSTER_NAME
+              value: "selfhosted"
+          volumeMounts:
+            - name: config-template
+              mountPath: /config-template
+              readOnly: true
+            - name: config
+              mountPath: /config
       containers:
         - name: kwatch
           image: ghcr.io/abahmed/kwatch:v0.10.3@sha256:e3aab18e170ab655539ab77261717cf476d0245986f5691ee65a6bf481a4e89e
@@ -40,6 +59,8 @@ spec:
               memory: "128Mi"
               cpu: "100m"
       volumes:
-        - name: config
+        - name: config-template
           secret:
             secretName: kwatch-config
+        - name: config
+          emptyDir: {}

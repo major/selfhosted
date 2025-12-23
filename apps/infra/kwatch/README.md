@@ -35,15 +35,22 @@ If you need to change the Discord webhook URL or other settings in the future, u
 
 ## 🔧 Configuration
 
-The kwatch configuration is stored in `sealed-config.yaml` (encrypted). See `config-template.yaml` for the expected format.
+The kwatch configuration uses environment variable substitution to inject the cluster name. The sealed configuration (`sealed-config.yaml`) contains a template with `${CLUSTER_NAME}` placeholder, which is replaced at runtime by an init container with the actual cluster name from the `CLUSTER_NAME` environment variable.
 
 **Important Configuration Options:**
 
-- **app.clusterName**: Set to `selfhosted` to identify which cluster alerts are from
+- **app.clusterName**: Automatically set to the value of `CLUSTER_NAME` environment variable (`selfhosted`)
 - **maxRecentLogLines**: Number of log lines to include (default: 50)
 - **namespaces**: Filter specific namespaces (leave empty for all)
 - **reasons**: Filter specific event types (leave empty for all)
 - **ignoreContainerNames**: Exclude specific containers (e.g., sidecars)
+
+### How It Works
+
+1. The sealed config contains a template with `${CLUSTER_NAME}` placeholder
+2. An init container substitutes the placeholder with the actual environment variable value
+3. The processed config is written to an emptyDir volume
+4. kwatch reads the final processed configuration
 
 ### Updating the Configuration
 
@@ -61,21 +68,24 @@ Or manually:
 # Step 1: Get the Discord webhook URL from flux-notifications
 WEBHOOK_URL=$(kubectl --kubeconfig ~/.kube/k3s-psychz-config -n flux-system get secret discord-webhook -o jsonpath='{.data.address}' | base64 -d)
 
-# Step 2: Create a new config.yaml with cluster name
-cat > config.yaml << EOF
+# Step 2: Create a new config.yaml with cluster name placeholder
+cat > config.yaml << 'EOF'
 app:
-  clusterName: selfhosted
+  clusterName: ${CLUSTER_NAME}
 
 maxRecentLogLines: 50
 
 alert:
   discord:
-    webhook: ${WEBHOOK_URL}
+    webhook: WEBHOOK_URL_PLACEHOLDER
 
 namespaces: []
 reasons: []
 ignoreContainerNames: []
 EOF
+
+# Replace webhook placeholder with actual URL
+sed -i "s|WEBHOOK_URL_PLACEHOLDER|${WEBHOOK_URL}|g" config.yaml
 
 # Step 3: Create and seal the secret
 kubectl --kubeconfig ~/.kube/k3s-psychz-config create secret generic kwatch-config \
