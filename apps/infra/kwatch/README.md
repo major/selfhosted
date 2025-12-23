@@ -29,31 +29,59 @@ The SealedSecret has been created and is ready to deploy. Simply commit and push
 
 ### 📝 If You Need to Update the Webhook
 
-If you want to change the Discord webhook URL in the future:
+The configuration includes the cluster name `selfhosted` so alerts clearly identify which cluster has issues.
+
+If you need to change the Discord webhook URL or other settings in the future, use the script in the "Updating the Configuration" section above.
+
+## 🔧 Configuration
+
+The kwatch configuration is stored in `sealed-config.yaml` (encrypted). See `config-template.yaml` for the expected format.
+
+**Important Configuration Options:**
+
+- **app.clusterName**: Set to `selfhosted` to identify which cluster alerts are from
+- **maxRecentLogLines**: Number of log lines to include (default: 50)
+- **namespaces**: Filter specific namespaces (leave empty for all)
+- **reasons**: Filter specific event types (leave empty for all)
+- **ignoreContainerNames**: Exclude specific containers (e.g., sidecars)
+
+### Updating the Configuration
+
+To update the sealed configuration with the cluster name:
 
 ```bash
-# Get the webhook URL from flux-notifications
-kubectl --kubeconfig ~/.kube/k3s-psychz-config -n flux-system get secret discord-webhook -o jsonpath='{.data.address}' | base64 -d
+# Step 1: Get the Discord webhook URL from flux-notifications
+WEBHOOK_URL=$(kubectl --kubeconfig ~/.kube/k3s-psychz-config -n flux-system get secret discord-webhook -o jsonpath='{.data.address}' | base64 -d)
 
-# Or create a new webhook and seal it:
-kubectl --kubeconfig ~/.kube/k3s-psychz-config create secret generic kwatch-secret \
-  --from-literal=discord-webhook-url='YOUR_DISCORD_WEBHOOK_URL' \
+# Step 2: Create a new config.yaml with cluster name
+cat > config.yaml << EOF
+app:
+  clusterName: selfhosted
+
+maxRecentLogLines: 50
+
+alert:
+  discord:
+    webhook: ${WEBHOOK_URL}
+
+namespaces: []
+reasons: []
+ignoreContainerNames: []
+EOF
+
+# Step 3: Create and seal the secret
+kubectl --kubeconfig ~/.kube/k3s-psychz-config create secret generic kwatch-config \
+  --from-file=config.yaml=config.yaml \
   --namespace=kwatch \
   --dry-run=client -o yaml | \
 /home/major/bin/kubeseal --kubeconfig ~/.kube/k3s-psychz-config \
   --controller-name=sealed-secrets \
   --controller-namespace=sealed-secrets \
-  --format=yaml > sealed-secret.yaml
+  --format=yaml > sealed-config.yaml
+
+# Step 4: Clean up the unencrypted config
+rm config.yaml
 ```
-
-## 🔧 Configuration
-
-Edit `configmap.yaml` to customize:
-
-- **maxRecentLogLines**: Number of log lines to include (default: 50)
-- **namespaces**: Filter specific namespaces (leave empty for all)
-- **reasons**: Filter specific event types (leave empty for all)
-- **ignoreContainerNames**: Exclude specific containers (e.g., sidecars)
 
 ## 📊 Monitoring
 

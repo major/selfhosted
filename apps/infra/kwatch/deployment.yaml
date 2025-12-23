@@ -26,6 +26,8 @@ spec:
           env:
             - name: CONFIG_FILE
               value: /config/config.yaml
+            - name: CLUSTER_NAME
+              value: "selfhosted"
           volumeMounts:
             - name: config
               mountPath: /config

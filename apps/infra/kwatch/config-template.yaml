@@ -1,0 +1,25 @@
+# 📝 kwatch Configuration Template
+# This template shows the correct configuration format including cluster name.
+# The actual configuration is stored in sealed-config.yaml (encrypted).
+
+app:
+  # Cluster name to include in alerts - IMPORTANT: Set this to identify your cluster
+  clusterName: selfhosted
+
+# Maximum number of log lines to include in notifications (default: 50)
+maxRecentLogLines: 50
+
+alert:
+  discord:
+    # Discord webhook URL (this should be kept secret)
+    webhook: YOUR_DISCORD_WEBHOOK_URL_HERE
+
+# Optional: Monitor specific namespaces (empty array = all namespaces)
+namespaces: []
+
+# Optional: Filter specific event types (empty array = all event types)
+# Common reasons: CrashLoopBackOff, ImagePullBackOff, Failed, etc.
+reasons: []
+
+# Optional: Ignore specific container names (e.g., sidecars like istio-proxy)
+ignoreContainerNames: []
