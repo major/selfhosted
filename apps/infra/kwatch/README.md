@@ -47,7 +47,15 @@ The kwatch configuration is stored in `sealed-config.yaml` (encrypted). See `con
 
 ### Updating the Configuration
 
-To update the sealed configuration with the cluster name:
+To update the sealed configuration with the cluster name, you can use the provided script:
+
+```bash
+# Run the update script (requires cluster access)
+cd apps/infra/kwatch
+./update-sealed-config.sh
+```
+
+Or manually:
 
 ```bash
 # Step 1: Get the Discord webhook URL from flux-notifications
