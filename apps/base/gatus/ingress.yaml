@@ -2,8 +2,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: uptime-kuma
-  namespace: uptime-kuma
+  name: gatus
+  namespace: gatus
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
@@ -11,7 +11,7 @@ spec:
   tls:
     - hosts:
         - uptime.amajor.cloud
-      secretName: uptime-kuma-tls
+      secretName: gatus-tls
   rules:
     - host: uptime.amajor.cloud
       http:
@@ -20,6 +20,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: uptime-kuma
+                name: gatus
                 port:
-                  number: 3001
+                  number: 8080
