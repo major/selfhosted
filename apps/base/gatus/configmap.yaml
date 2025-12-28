@@ -1,0 +1,53 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gatus-config
+  namespace: gatus
+data:
+  config.yaml: |
+    ui:
+      title: "amajor.cloud Status"
+      header: "Service Status"
+
+    alerting:
+      discord:
+        webhook-url: "${DISCORD_WEBHOOK_URL}"
+        default-alert:
+          enabled: true
+          failure-threshold: 2
+          success-threshold: 2
+          send-on-resolved: true
+
+    endpoints:
+      - name: Speedtest
+        group: cluster
+        url: "https://speedtest.amajor.cloud"
+        interval: 5m
+        conditions:
+          - "[STATUS] == 200"
+          - "[RESPONSE_TIME] < 5000"
+          - "[CERTIFICATE_EXPIRATION] > 48h"
+        alerts:
+          - type: discord
+
+      - name: Flux Webhook
+        group: cluster
+        url: "https://webhook.amajor.cloud/hook/"
+        interval: 5m
+        conditions:
+          - "[STATUS] < 500"
+          - "[CERTIFICATE_EXPIRATION] > 48h"
+        alerts:
+          - type: discord
+
+      - name: Home
+        group: external
+        url: "https://ctnr.cloud"
+        interval: 5m
+        conditions:
+          - "[STATUS] == 200"
+          - "[RESPONSE_TIME] < 5000"
+          - "[CERTIFICATE_EXPIRATION] > 48h"
+        alerts:
+          - type: discord
