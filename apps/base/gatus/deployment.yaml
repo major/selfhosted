@@ -20,6 +20,8 @@ spec:
           ports:
             - containerPort: 8080
           env:
+            - name: GATUS_CONFIG_PATH
+              value: /config/config.yaml
             - name: DISCORD_WEBHOOK_URL
               valueFrom:
                 secretKeyRef:
