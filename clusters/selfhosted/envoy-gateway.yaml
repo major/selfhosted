@@ -25,4 +25,4 @@ spec:
       kind: Gateway
       name: amajor-cloud-gateway
       namespace: envoy-gateway-system
-  timeout: 5m
+  timeout: 15m

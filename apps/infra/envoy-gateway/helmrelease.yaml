@@ -17,9 +17,11 @@ spec:
         namespace: envoy-gateway-system
   install:
     createNamespace: false
+    timeout: 10m
     remediation:
       retries: 3
   upgrade:
+    timeout: 10m
     remediation:
       retries: 3
   values:
@@ -28,6 +30,7 @@ spec:
         resources:
           requests:
             cpu: 100m
-            memory: 128Mi
+            memory: 256Mi
           limits:
-            memory: 512Mi
+            cpu: 1000m
+            memory: 1Gi
