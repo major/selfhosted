@@ -5,11 +5,11 @@ metadata:
   name: gateway-api-crds
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 6h
   sourceRef:
     kind: GitRepository
     name: gateway-api
   path: ./config/crd/standard
   prune: false
   wait: true
-  timeout: 2m
+  timeout: 5m
