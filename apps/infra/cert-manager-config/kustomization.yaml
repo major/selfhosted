@@ -5,5 +5,4 @@ resources:
   - clusterissuer.yaml
   - clusterissuer-dns01.yaml
   - porkbun-webhook
-  - porkbun-webhook-rbac.yaml
   - porkbun-sealed-secret.yaml
