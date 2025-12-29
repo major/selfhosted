@@ -1,0 +1,42 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: porkbun-webhook
+  namespace: flux-system
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: ./deploy/porkbun-webhook
+      sourceRef:
+        kind: GitRepository
+        name: porkbun-webhook
+        namespace: flux-system
+      interval: 12h
+  targetNamespace: cert-manager
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    groupName: acme.amajor.cloud
+
+    image:
+      repository: ghcr.io/mdonoughe/porkbun-webhook
+      tag: v0.1.5
+      pullPolicy: IfNotPresent
+
+    certManager:
+      namespace: cert-manager
+      serviceAccountName: cert-manager
+
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi
