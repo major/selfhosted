@@ -18,9 +18,11 @@ spec:
             apiKeySecretRef:
               name: porkbun-credentials
               key: PORKBUN_API_KEY
+              namespace: cert-manager
             secretKeySecretRef:
               name: porkbun-credentials
               key: PORKBUN_SECRET_API_KEY
+              namespace: cert-manager
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -41,6 +43,8 @@ spec:
             apiKeySecretRef:
               name: porkbun-credentials
               key: PORKBUN_API_KEY
+              namespace: cert-manager
             secretKeySecretRef:
               name: porkbun-credentials
               key: PORKBUN_SECRET_API_KEY
+              namespace: cert-manager

@@ -21,7 +21,10 @@ spec:
       kind: Secret
       name: porkbun-credentials
       namespace: cert-manager
-    - apiVersion: apps/v1
-      kind: Deployment
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
       name: porkbun-webhook
-      namespace: cert-manager
+      namespace: flux-system
+    - apiVersion: apiregistration.k8s.io/v1
+      kind: APIService
+      name: v1alpha1.acme.amajor.cloud

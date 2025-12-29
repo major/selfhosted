@@ -1,4 +1,7 @@
 ---
+# Grants porkbun-webhook ServiceAccount read access to porkbun-credentials secret.
+# The upstream Helm chart creates the ServiceAccount but does not grant secret permissions.
+# This manual RBAC is required for the webhook to authenticate with Porkbun API.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
