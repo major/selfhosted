@@ -9,3 +9,4 @@ resources:
   - gatewayclass.yaml
   - gateway.yaml
   - http-redirect.yaml
+  - reference-grants.yaml
