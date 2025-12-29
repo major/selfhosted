@@ -1,0 +1,17 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gateway-api-source
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/infra/gateway-api-source
+  prune: false
+  wait: true
+  timeout: 2m
+  dependsOn:
+    - name: bootstrap-infra
