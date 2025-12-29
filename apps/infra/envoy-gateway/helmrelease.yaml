@@ -10,6 +10,7 @@ spec:
     spec:
       chart: gateway-helm
       version: v1.3.0
+      interval: 12h
       sourceRef:
         kind: HelmRepository
         name: envoy-gateway
@@ -21,3 +22,12 @@ spec:
   upgrade:
     remediation:
       retries: 3
+  values:
+    deployment:
+      envoyGateway:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            memory: 512Mi

@@ -8,12 +8,14 @@ spec:
   interval: 10m
   path: ./apps/infra/envoy-gateway
   prune: true
+  wait: true
   sourceRef:
     kind: GitRepository
     name: flux-system
   dependsOn:
     - name: cert-manager-config
     - name: gateway-api-crds
+    - name: infra
   healthChecks:
     - apiVersion: apps/v1
       kind: Deployment

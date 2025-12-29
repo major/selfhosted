@@ -12,7 +12,10 @@ spec:
       port: 80
       allowedRoutes:
         namespaces:
-          from: All
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-access: amajor-cloud
     - name: https
       protocol: HTTPS
       port: 443
@@ -23,4 +26,7 @@ spec:
             kind: Secret
       allowedRoutes:
         namespaces:
-          from: All
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-access: amajor-cloud

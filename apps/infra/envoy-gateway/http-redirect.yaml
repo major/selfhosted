@@ -8,6 +8,9 @@ spec:
   parentRefs:
     - name: amajor-cloud-gateway
       sectionName: http
+  hostnames:
+    - "amajor.cloud"
+    - "*.amajor.cloud"
   rules:
     - filters:
         - type: RequestRedirect
