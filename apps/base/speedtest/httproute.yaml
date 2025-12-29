@@ -1,0 +1,20 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: speedtest
+  namespace: speedtest
+spec:
+  parentRefs:
+    - name: amajor-cloud-gateway
+      namespace: envoy-gateway-system
+  hostnames:
+    - speedtest.amajor.cloud
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: speedtest
+          port: 80
