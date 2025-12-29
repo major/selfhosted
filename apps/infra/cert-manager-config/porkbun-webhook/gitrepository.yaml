@@ -8,7 +8,8 @@ spec:
   interval: 1h
   url: https://github.com/mdonoughe/porkbun-webhook
   ref:
-    tag: v0.1.5
+    # v0.1.5 - pinned to commit for immutability
+    commit: 1d558a71332c6290fc8bc4515257d9a778e5442c
   ignore: |
     /*
     !/deploy/porkbun-webhook
