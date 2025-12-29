@@ -25,4 +25,8 @@ spec:
       kind: Gateway
       name: amajor-cloud-gateway
       namespace: envoy-gateway-system
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      name: amajor-cloud-wildcard
+      namespace: envoy-gateway-system
   timeout: 15m
