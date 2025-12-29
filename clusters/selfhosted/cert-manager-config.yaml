@@ -12,5 +12,15 @@ spec:
   path: ./apps/infra/cert-manager-config
   prune: true
   wait: true
+  timeout: 5m
   dependsOn:
     - name: cert-manager
+  healthChecks:
+    - apiVersion: v1
+      kind: Secret
+      name: porkbun-credentials
+      namespace: cert-manager
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: porkbun-webhook
+      namespace: cert-manager
