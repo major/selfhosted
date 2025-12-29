@@ -5,7 +5,7 @@ resources:
   - namespace.yaml
   - repository.yaml
   - helmrelease.yaml
-  - wildcard-certificate-staging.yaml
+  - wildcard-certificate.yaml
   - gatewayclass.yaml
   - gateway.yaml
   - http-redirect.yaml

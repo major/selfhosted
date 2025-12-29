@@ -2,12 +2,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: amajor-cloud-wildcard-staging
+  name: amajor-cloud-wildcard
   namespace: envoy-gateway-system
 spec:
-  secretName: amajor-cloud-tls-staging
+  secretName: amajor-cloud-tls
   issuerRef:
-    name: letsencrypt-staging-dns01
+    name: letsencrypt-production-dns01
     kind: ClusterIssuer
   dnsNames:
     - "amajor.cloud"

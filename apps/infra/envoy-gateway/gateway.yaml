@@ -19,7 +19,7 @@ spec:
       tls:
         mode: Terminate
         certificateRefs:
-          - name: amajor-cloud-tls-staging
+          - name: amajor-cloud-tls
             kind: Secret
       allowedRoutes:
         namespaces:
