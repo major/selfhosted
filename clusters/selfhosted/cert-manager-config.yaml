@@ -12,5 +12,19 @@ spec:
   path: ./apps/infra/cert-manager-config
   prune: true
   wait: true
+  timeout: 10m
   dependsOn:
     - name: cert-manager
+    - name: bootstrap-infra
+  healthChecks:
+    - apiVersion: v1
+      kind: Secret
+      name: porkbun-credentials
+      namespace: cert-manager
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: porkbun-webhook
+      namespace: flux-system
+    - apiVersion: apiregistration.k8s.io/v1
+      kind: APIService
+      name: v1alpha1.acme.amajor.cloud

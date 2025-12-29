@@ -3,3 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - clusterissuer.yaml
+  - clusterissuer-dns01.yaml
+  - porkbun-webhook
+  - porkbun-sealed-secret.yaml
