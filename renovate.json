@@ -108,7 +108,7 @@
         "docker"
       ],
       "pinDigests": true,
-      "minimumReleaseAge": "7 days"
+      "stabilityDays": 3
     },
     {
       "description": "Group all container image updates by app",
@@ -130,7 +130,7 @@
       ],
       "automerge": true,
       "automergeType": "pr",
-      "minimumReleaseAge": "7 days"
+      "stabilityDays": 3
     }
   ],
   "separateMajorMinor": true,
