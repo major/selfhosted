@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: gatus
-          image: twinproduction/gatus:latest@sha256:8db4661d23bfe9701acaf926823c22cba054906b490c8da67ceaed3bc33ceaf4
+          image: twinproduction/gatus:latest@sha256:57fc66cc96f24bb2f44170f45a31ef7946c186e18a7c7bace25138ef2acc171e
           ports:
             - containerPort: 8080
           env:
