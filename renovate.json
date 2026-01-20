@@ -46,7 +46,8 @@
       "matchPackageNames": [
         "/^fluxcd//"
       ],
-      "minimumReleaseAge": "7 days"
+      "minimumReleaseAge": "3 days",
+      "internalChecksFilter": "strict"
     },
     {
       "description": "Group all Flux system updates together",
@@ -86,7 +87,8 @@
         "minor",
         "patch"
       ],
-      "minimumReleaseAge": "7 days"
+      "minimumReleaseAge": "3 days",
+      "internalChecksFilter": "strict"
     },
     {
       "description": "Require manual approval for major updates",
@@ -108,7 +110,8 @@
         "docker"
       ],
       "pinDigests": true,
-      "stabilityDays": 3
+      "minimumReleaseAge": "3 days",
+      "internalChecksFilter": "strict"
     },
     {
       "description": "Group all container image updates by app",
@@ -130,7 +133,8 @@
       ],
       "automerge": true,
       "automergeType": "pr",
-      "stabilityDays": 3
+      "minimumReleaseAge": "3 days",
+      "internalChecksFilter": "strict"
     }
   ],
   "separateMajorMinor": true,
