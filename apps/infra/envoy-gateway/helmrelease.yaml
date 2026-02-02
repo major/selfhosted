@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: gateway-helm
-      version: 1.6.2
+      version: 1.6.3
       interval: 12h
       sourceRef:
         kind: HelmRepository
