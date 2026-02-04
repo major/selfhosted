@@ -34,7 +34,6 @@ The repository follows Flux's standard GitOps pattern:
   - [uptime-kuma/](apps/base/uptime-kuma/) - Uptime monitoring service (with persistent storage)
   - [speedtest/](apps/base/speedtest/) - LibreSpeed speed test service
   - [tickerlake/](apps/base/tickerlake/) - Ticker application
-  - [hvcwatch/](apps/base/hvcwatch/) - HVC watch service (with encrypted secrets)
   - [stockchartsalerts/](apps/base/stockchartsalerts/) - Stock chart alerts (with encrypted secrets)
 
 ### Flux Sync Flow
@@ -293,7 +292,6 @@ For setup instructions and troubleshooting, see [apps/base/flux-webhook/README.m
 | **uptime-kuma** | Uptime monitoring | PersistentVolume storage at `uptime.amajor.cloud` |
 | **speedtest** | LibreSpeed speed test | Self-hosted speed testing at `speedtest.amajor.cloud` |
 | **tickerlake** | Ticker application | Custom application |
-| **hvcwatch** | HVC watch service | Encrypted secrets via SealedSecrets |
 | **stockchartsalerts** | Stock chart alerts | Encrypted secrets, monitoring alerts |
 
 All applications are accessible via `<app-name>.amajor.cloud` with automatic HTTPS.

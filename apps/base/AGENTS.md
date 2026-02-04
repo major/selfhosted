@@ -8,7 +8,6 @@ User-facing applications deployed via Flux GitOps.
 |-----|---------|---------|---------|
 | flux-webhook | GitHub webhook → instant Flux sync | - | SealedSecret |
 | gatus | Uptime monitoring dashboard | - | SealedSecret (Discord) |
-| hvcwatch | HVC monitoring | PVC | SealedSecret |
 | speedtest | LibreSpeed speed test | - | - |
 | stockchartsalerts | Stock chart alerts | - | SealedSecret |
 | stocknews | Stock news aggregator | - | SealedSecret |
@@ -35,7 +34,7 @@ Each app follows this pattern:
 | Change app config | `deployment.yaml` | Env vars, image, resources |
 | Update routing | `httproute.yaml` | Hostname, paths, backends |
 | Rotate secrets | `sealed-secret.yaml` | Re-seal with kubeseal |
-| Add storage | `pvc.yaml` | Copy from hvcwatch/thetagang |
+| Add storage | `pvc.yaml` | Copy from thetagang-notifications |
 
 ## ADDING NEW APP
 
