@@ -68,7 +68,7 @@ gateway-api-crds → infra (redis, kwatch, flux-notifications)
     ↓
 envoy-gateway
     ↓
-apps (gatus, speedtest, hvcwatch, stockchartsalerts, stocknews, thetagang-notifications, flux-webhook)
+apps (gatus, speedtest, stockchartsalerts, stocknews, thetagang-notifications, flux-webhook)
 ```
 
 ## COMMANDS

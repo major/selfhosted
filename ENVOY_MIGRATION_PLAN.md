@@ -44,7 +44,7 @@ curl -X POST https://api.porkbun.com/api/json/v3/dns/retrieve/amajor.cloud \
 Verify actual service ports for each app:
 
 ```bash
-kubectl --kubeconfig ~/.kube/k3s-psychz-config get svc -A -o wide | grep -E "gatus|speedtest|flux-webhook|hvcwatch|stockchartsalerts|stocknews|thetagang|tickerlake"
+kubectl --kubeconfig ~/.kube/k3s-psychz-config get svc -A -o wide | grep -E "gatus|speedtest|flux-webhook|stockchartsalerts|stocknews|thetagang|tickerlake"
 ```
 
 Document in table:
@@ -508,11 +508,10 @@ Monitor speedtest for 48 hours before proceeding:
 
 1. **gatus** (monitoring - migrate early so it can monitor others)
 2. **flux-webhook** (infrastructure)
-3. **hvcwatch**
-4. **stockchartsalerts**
-5. **stocknews**
-6. **thetagang-notifications**
-7. **tickerlake**
+3. **stockchartsalerts**
+4. **stocknews**
+5. **thetagang-notifications**
+6. **tickerlake**
 
 ### Per-App Migration Template
 
@@ -605,7 +604,7 @@ curl -v https://speedtest.amajor.cloud 2>&1 | grep "issuer:"
 # Should show: "issuer: C=US; O=Let's Encrypt; CN=R10" (or similar)
 
 # Verify all apps have valid certs
-for app in speedtest gatus flux-webhook hvcwatch stockchartsalerts stocknews thetagang tickerlake; do
+for app in speedtest gatus flux-webhook stockchartsalerts stocknews thetagang tickerlake; do
   echo "=== $app ==="
   curl -sI https://$app.amajor.cloud | head -1
 done
@@ -637,7 +636,7 @@ dig speedtest.amajor.cloud +short
 # Should return Envoy Gateway IP
 
 # Test all apps
-for app in speedtest gatus flux-webhook hvcwatch stockchartsalerts stocknews thetagang tickerlake; do
+for app in speedtest gatus flux-webhook stockchartsalerts stocknews thetagang tickerlake; do
   echo "=== $app ==="
   curl -sI https://$app.amajor.cloud | head -1
 done
