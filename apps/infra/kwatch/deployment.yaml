@@ -21,7 +21,7 @@ spec:
       serviceAccountName: kwatch
       containers:
         - name: kwatch
-          image: ghcr.io/abahmed/kwatch:v0.10.3@sha256:e3aab18e170ab655539ab77261717cf476d0245986f5691ee65a6bf481a4e89e
+          image: ghcr.io/abahmed/kwatch:v0.10.4@sha256:ebcf0851b3f421f3062f404bea514bdfce0e3b617817bf4dd63e4193842dd250
           imagePullPolicy: Always
           env:
             - name: CONFIG_FILE
