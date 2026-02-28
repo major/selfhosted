@@ -14,6 +14,9 @@
     "managerFilePatterns": ["/^apps/.+\\.ya?ml$/"]
   },
   "platformAutomerge": true,
+  "prConcurrentLimit": 0,
+  "prHourlyLimit": 0,
+  "branchConcurrentLimit": 0,
   "packageRules": [
     {
       "description": "Auto-merge minor and patch updates after stability window",
