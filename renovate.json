@@ -36,7 +36,6 @@
       "description": "Require manual review for major updates",
       "matchUpdateTypes": ["major"],
       "automerge": false,
-      "dependencyDashboardApproval": true,
       "labels": ["major-update"]
     }
   ]
