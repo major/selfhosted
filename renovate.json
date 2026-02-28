@@ -1,193 +1,43 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
-  "enabled": true,
+  "extends": ["config:recommended"],
   "timezone": "America/Chicago",
-  "enabledManagers": [
-    "flux",
-    "kubernetes",
-    "dockerfile",
-    "helm-values",
-    "helmfile",
-    "custom.regex"
-  ],
+  "enabledManagers": ["flux", "helm-values", "github-actions"],
   "flux": {
     "managerFilePatterns": [
-      "/^apps/.+\\.yaml$/",
-      "/^clusters/.+\\.yaml$/"
-    ]
-  },
-  "kubernetes": {
-    "managerFilePatterns": [
-      "/^apps/.+\\.yaml$/",
-      "/^clusters/.+\\.yaml$/"
+      "/(?:^|/)gotk-components\\.ya?ml$/",
+      "/^clusters/.+\\.ya?ml$/",
+      "/^apps/.+\\.ya?ml$/"
     ]
   },
   "helm-values": {
-    "managerFilePatterns": [
-      "/^apps/.+\\.yaml$/"
-    ]
-  },
-  "packageRules": [
-    {
-      "description": "Auto-merge Flux component updates",
-      "matchDatasources": [
-        "github-releases",
-        "github-tags"
-      ],
-      "automerge": true,
-      "automergeType": "pr",
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "matchPackageNames": [
-        "/^fluxcd//"
-      ],
-      "minimumReleaseAge": "3 days",
-      "internalChecksFilter": "strict"
-    },
-    {
-      "description": "Group all Flux system updates together",
-      "groupName": "Flux",
-      "matchDatasources": [
-        "github-releases",
-        "github-tags"
-      ],
-      "semanticCommits": "enabled",
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "flux",
-      "matchPackageNames": [
-        "/^fluxcd//"
-      ]
-    },
-    {
-      "description": "Group all Traefik updates",
-      "groupName": "Traefik",
-      "matchDatasources": [
-        "helm"
-      ],
-      "matchPackageNames": [
-        "traefik"
-      ],
-      "semanticCommits": "enabled",
-      "semanticCommitType": "feat",
-      "semanticCommitScope": "traefik"
-    },
-    {
-      "description": "Auto-merge minor and patch Helm chart updates",
-      "matchDatasources": [
-        "helm"
-      ],
-      "automerge": true,
-      "automergeType": "pr",
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "minimumReleaseAge": "3 days",
-      "internalChecksFilter": "strict"
-    },
-    {
-      "description": "Require manual approval for major updates",
-      "matchDatasources": [
-        "helm"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "automerge": false,
-      "labels": [
-        "major-update",
-        "requires-review"
-      ]
-    },
-    {
-      "description": "Pin all container images to digests for immutability",
-      "matchDatasources": [
-        "docker"
-      ],
-      "pinDigests": true,
-      "minimumReleaseAge": "3 days",
-      "internalChecksFilter": "strict"
-    },
-    {
-      "description": "Group all container image updates by app",
-      "matchDatasources": [
-        "docker"
-      ],
-      "groupName": "{{parentDir}} container images",
-      "semanticCommits": "enabled",
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "{{parentDir}}"
-    },
-    {
-      "description": "Auto-merge patch-level container updates",
-      "matchDatasources": [
-        "docker"
-      ],
-      "matchUpdateTypes": [
-        "patch"
-      ],
-      "automerge": true,
-      "automergeType": "pr",
-      "minimumReleaseAge": "3 days",
-      "internalChecksFilter": "strict"
-    }
-  ],
-  "separateMajorMinor": true,
-  "separateMinorPatch": false,
-  "prConcurrentLimit": 0,
-  "prHourlyLimit": 0,
-  "prCreation": "immediate",
-  "rebaseWhen": "behind-base-branch",
-  "semanticCommits": "enabled",
-  "commitMessagePrefix": "⬆️",
-  "commitMessageAction": "Update",
-  "commitMessageTopic": "{{depName}}",
-  "commitMessageExtra": "to {{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if isMajor}}{{prettyNewMajor}}{{else}}{{#if isSingleVersion}}{{prettyNewVersion}}{{else}}{{#if newValue}}{{{newValue}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if}}{{/if}}{{/if}}",
-  "labels": [
-    "dependencies",
-    "renovate"
-  ],
-  "assignees": [],
-  "reviewers": [],
-  "schedule": [
-    "before 5am on monday"
-  ],
-  "ignoreTests": false,
-  "dependencyDashboard": true,
-  "dependencyDashboardTitle": "🤖 Renovate Dashboard",
-  "dependencyDashboardLabels": [
-    "renovate",
-    "dashboard"
-  ],
-  "vulnerabilityAlerts": {
-    "enabled": true,
-    "labels": [
-      "security"
-    ],
-    "automerge": false,
-    "schedule": [
-      "at any time"
-    ]
+    "managerFilePatterns": ["/^apps/.+\\.ya?ml$/"]
   },
   "platformAutomerge": true,
-  "customManagers": [
+  "packageRules": [
     {
-      "description": "Update Flux manifests from GitHub releases",
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/^clusters/.+/flux-system/gotk-components\\.yaml$/"
-      ],
-      "matchStrings": [
-        "# Flux version: (?<currentValue>.*?)\\n"
-      ],
-      "datasourceTemplate": "github-releases",
-      "depNameTemplate": "fluxcd/flux2",
-      "versioningTemplate": "semver"
+      "description": "Auto-merge minor and patch updates after stability window",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Auto-merge container digest updates",
+      "matchUpdateTypes": ["digest"],
+      "automerge": true
+    },
+    {
+      "description": "Auto-merge GitHub Actions patch updates",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    },
+    {
+      "description": "Require manual review for major updates",
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "dependencyDashboardApproval": true,
+      "labels": ["major-update"]
     }
   ]
 }
