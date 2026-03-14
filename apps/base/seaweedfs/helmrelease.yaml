@@ -26,7 +26,7 @@ spec:
       retries: 3
   values:
     global:
-      imageName: chrislusf/seaweedfs@sha256:94b8ef37a1e98004868bab705eb93b43156ee0a8ebbfcbbe73c747c86e8c2366
+      imageName: chrislusf/seaweedfs
 
     master:
       affinity: ""
