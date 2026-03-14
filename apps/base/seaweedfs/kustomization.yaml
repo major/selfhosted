@@ -4,3 +4,6 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - s3-credentials-sealed-secret.yaml
+  - repository.yaml
+  - helmrelease.yaml
+  - httproute.yaml

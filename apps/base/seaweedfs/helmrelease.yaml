@@ -1,0 +1,108 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: seaweedfs
+  namespace: seaweedfs
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: seaweedfs
+      version: '4.17.0'
+      sourceRef:
+        kind: HelmRepository
+        name: seaweedfs
+        namespace: seaweedfs
+      interval: 12h
+  install:
+    createNamespace: false
+    timeout: 10m
+    remediation:
+      retries: 3
+  upgrade:
+    timeout: 10m
+    remediation:
+      retries: 3
+  values:
+    global:
+      imageName: chrislusf/seaweedfs@sha256:94b8ef37a1e98004868bab705eb93b43156ee0a8ebbfcbbe73c747c86e8c2366
+
+    master:
+      affinity: ""
+      defaultReplication: "000"
+      data:
+        type: "persistentVolumeClaim"
+        size: "1Gi"
+        storageClass: "local-path"
+      logs:
+        type: "emptyDir"
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 250m
+          memory: 256Mi
+
+    volume:
+      affinity: ""
+      dataDirs:
+        - name: data1
+          type: "persistentVolumeClaim"
+          size: "15Gi"
+          storageClass: "local-path"
+          maxVolumes: 0
+      idx: {}
+      logs:
+        type: "emptyDir"
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+
+    filer:
+      affinity: ""
+      data:
+        type: "persistentVolumeClaim"
+        size: "2Gi"
+        storageClass: "local-path"
+      logs:
+        type: "emptyDir"
+      s3:
+        enabled: false
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+      extraEnvironmentVars:
+        WEED_LEVELDB2_ENABLED: "true"
+        WEED_FILER_OPTIONS_RECURSIVE_DELETE: "false"
+        WEED_FILER_BUCKETS_FOLDER: "/buckets"
+
+    s3:
+      enabled: true
+      port: 8333
+      enableAuth: true
+      existingConfigSecret: seaweedfs-s3-credentials
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 250m
+          memory: 256Mi
+      logs:
+        type: "emptyDir"
+
+    sftp:
+      enabled: false
+
+    admin:
+      enabled: false
