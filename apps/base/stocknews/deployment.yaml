@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: stocknews
-          image: ghcr.io/major/stocknews@sha256:2ac2909aae6cc07f3f1b4501d918ec22200bc9dfa2915deba631d55fe6be47ea
+          image: ghcr.io/major/stocknews@sha256:09d48d38b15fcf878ae576ab87dedbfefdc233b172895788700df41cfcc06838
           env:
             # Non-sensitive environment variables
             - name: NEWS_API_ENDPOINT
