@@ -13,7 +13,7 @@
   "helm-values": {
     "managerFilePatterns": ["/^apps/.+\\.ya?ml$/"]
   },
-  "platformAutomerge": true,
+  "platformAutomerge": false,
   "prConcurrentLimit": 0,
   "prHourlyLimit": 0,
   "branchConcurrentLimit": 0,
