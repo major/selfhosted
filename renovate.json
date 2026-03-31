@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "timezone": "America/Chicago",
-  "enabledManagers": ["flux", "helm-values", "github-actions"],
+  "enabledManagers": ["flux", "helm-values", "github-actions", "kubernetes"],
   "flux": {
     "managerFilePatterns": [
       "/(?:^|/)gotk-components\\.ya?ml$/",
