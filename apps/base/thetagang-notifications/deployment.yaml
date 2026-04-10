@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: thetagang-notifications
-          image: ghcr.io/major/thetagang-notifications:main@sha256:414a532f7f0f19fc7b01b0967524c06ed7ca84d00b7dc3ca1dd5c16eee4896ab
+          image: ghcr.io/major/thetagang-notifications:main@sha256:a5659bb73ebe5ae0246f7c3b0168c26913b52e214c1526ee297d695e99db37ad
           imagePullPolicy: Always
           securityContext:
             readOnlyRootFilesystem: true
