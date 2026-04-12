@@ -19,7 +19,13 @@
       "Bash(flux:*)",
       "Bash(curl:*)",
       "Bash(helm:*)",
-      "Bash(openssl rand:*)"
+      "Bash(openssl rand:*)",
+      "Bash(git commit:*)",
+      "Bash(gh pr create:*)",
+      "Bash(KUBECONFIG=~/.kube/k3s-psychz-config flux get:*)",
+      "Bash(KUBECONFIG=~/.kube/k3s-psychz-config kubectl get:*)",
+      "Bash(openssl s_client:*)",
+      "Bash(openssl x509:*)"
     ],
     "deny": [],
     "ask": []

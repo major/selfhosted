@@ -64,11 +64,11 @@ cert-manager (health checks on 3 deployments)
     ↓
 cert-manager-config (Porkbun DNS-01 webhook)
     ↓
-gateway-api-crds → infra (redis, kwatch, flux-notifications)
+gateway-api-crds → infra (kwatch, flux-notifications)
     ↓
 envoy-gateway
     ↓
-apps (gatus, speedtest, stockchartsalerts, thetagang-notifications, flux-webhook)
+apps (gatus, speedtest, stockchartsalerts, flux-webhook)
 ```
 
 ## COMMANDS
