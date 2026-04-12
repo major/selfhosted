@@ -13,7 +13,6 @@ Infrastructure components deployed via Flux GitOps.
 | gateway-api-crds | OCIRepository | Gateway API CRD definitions |
 | gateway-api-source | GitRepository | Gateway API source |
 | kwatch | Kustomize | K8s event monitoring |
-| redis | Kustomize | Cache layer with PVC |
 
 ## DEPENDENCY ORDER
 

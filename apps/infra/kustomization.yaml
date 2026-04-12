@@ -4,5 +4,4 @@ kind: Kustomization
 resources:
   - cert-manager
   - flux-notifications
-  - redis
   - kwatch
