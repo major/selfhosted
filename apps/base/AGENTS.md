@@ -10,7 +10,6 @@ User-facing applications deployed via Flux GitOps.
 | gatus | Uptime monitoring dashboard | - | SealedSecret (Discord) |
 | speedtest | LibreSpeed speed test | - | - |
 | stockchartsalerts | Stock chart alerts | - | SealedSecret |
-| stocknews | Stock news aggregator | - | SealedSecret |
 | thetagang-notifications | Options trading alerts | PVC | SealedSecret |
 
 ## APP STRUCTURE
